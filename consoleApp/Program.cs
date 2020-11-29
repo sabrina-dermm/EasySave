@@ -10,11 +10,12 @@ namespace consoleApp
     {
         static void Main(string[] args)
         {
+            
 
             ModelS model = new ModelS();
-            Interface interFace = new Interface(model);
-            Controler con = new Controler(model, interFace);
-            con.start();
+            InterFace view = new InterFace(model);
+            Controler ctrl = new Controler(model, view);
+            ctrl.Start();
         }
     }
 }
