@@ -36,8 +36,7 @@ namespace consoleApp.View
         {
             string[] choice = new string[5];
 
-            for (int i = 0; i < 4; i++)
-            {
+            
                 // Ask for name.
                 Console.WriteLine("\nChoose a name for your save procedure:");
                 string enteredName = Console.ReadLine();
@@ -46,8 +45,8 @@ namespace consoleApp.View
                     Console.WriteLine("\nPlease only make use of alphanumeric characters, spaces or underscores.\n");
                     enteredName = Console.ReadLine();
                 }
-                choice[i] = enteredName;
-                i++;
+                choice[0] = enteredName;
+                
 
                 // Ask for source path.
                 Console.WriteLine("\nChoose a source path to save :");
@@ -57,8 +56,8 @@ namespace consoleApp.View
                     Console.WriteLine("\nPlease enter a valid absolute path.\n");
                     enteredSource = Console.ReadLine();
                 }
-                choice[i] = enteredSource;
-                i++;
+                choice[1] = enteredSource;
+                
 
                 // Ask for destination path.
                 Console.WriteLine("\nChoose a destination path to export the save :");
@@ -68,8 +67,8 @@ namespace consoleApp.View
                     Console.WriteLine("\nPlease enter a valid absolute path.\n");
                     enteredDestination = Console.ReadLine();
                 }
-                choice[i] = enteredDestination;
-                i++;
+                choice[2] = enteredDestination;
+                
 
 
                 // Ask for backup type.
@@ -85,8 +84,8 @@ namespace consoleApp.View
                     Console.WriteLine("\nPlease enter a correct value to proceed.");
                     saveTypeChoice = Console.ReadLine();
                 }
-                choice[i] = saveTypeChoice;
-                i++;
+                choice[3] = saveTypeChoice;
+                
 
 
                 //Ask for save location in array.
@@ -99,8 +98,8 @@ namespace consoleApp.View
                     Console.WriteLine("\nPlease enter a correct value to proceed.");
                     savePos = Console.ReadLine();
                 }
-                choice[i] = savePos;
-            }
+                choice[4] = savePos;
+            
             return choice;
         }
 

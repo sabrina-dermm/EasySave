@@ -275,6 +275,19 @@ namespace consoleApp.Model
         {
             //New LogLine object with Time and content
             LogLine newLogLine = new LogLine(_content);
+            if (!File.Exists("log.json"))
+            {
+                var convertedJson1 = JsonConvert.SerializeObject(newLogLine, Formatting.Indented);
+                File.WriteAllText("log.json", convertedJson1);
+            }
+            else
+            {
+                var convertedJson2 = JsonConvert.SerializeObject(newLogLine, Formatting.Indented);
+                File.AppendAllText("log.json", convertedJson2);
+            }
+            /*
+            //New LogLine object with Time and content
+            LogLine newLogLine = new LogLine(_content);
 
             //Create a raw string from the json log file
             string JsonLog = File.ReadAllText("log.json");
@@ -289,7 +302,7 @@ namespace consoleApp.Model
             var convertedJson = JsonConvert.SerializeObject(LogList, Formatting.Indented);
 
             //Write the new string into the json log file
-            File.WriteAllText("log.json", convertedJson);
+            File.WriteAllText("log.json", convertedJson);*/
 
         }
 
