@@ -22,17 +22,17 @@ namespace consoleApp.Controller
         private void LaunchSave()
         {
             view.TerminalMessage("launch");
-            int saveProcedureIndex = view.SelectSaveProcedure(model.WorkList);
+            int saveProcedureIndex = view.SelectSaveProcedure(model.backupJobList);
 
-            if (saveProcedureIndex != 9)
+            if (saveProcedureIndex != 0)
             {
                 if (view.Confirm())
                 {
                     //To Implement (sauvegarde en cours blablabla)
 
-                    view.SaveInProgressMessage(model.WorkList[saveProcedureIndex - 1]);
+                    view.SaveInProgressMessage(model.backupJobList[saveProcedureIndex - 1]);
                     model.DoSave(saveProcedureIndex);
-                    view.SaveIsDoneMessage(model.WorkList[saveProcedureIndex - 1]);
+                    view.SaveIsDoneMessage(model.backupJobList[saveProcedureIndex - 1]);
                     //fonction vue pour retour user
                     ShowMenu();
                     return;
@@ -59,7 +59,7 @@ namespace consoleApp.Controller
             {
                 type = SaveWorkType.complete;
             }
-            else if (saveProcedure[3] == "2")
+            else 
             {
                 type = SaveWorkType.differencial;
             }
@@ -73,10 +73,10 @@ namespace consoleApp.Controller
         private void ModifySave()
         {
             view.TerminalMessage("modify");
-            int saveProcedureIndex = view.SelectSaveProcedure(model.WorkList);
-            if (saveProcedureIndex != 9)
+            int saveProcedureIndex = view.SelectSaveProcedure(model.backupJobList);
+            if (saveProcedureIndex != 0)
             {
-                SaveWork saveProcedure = view.ModifySaveProcedure(model.WorkList[saveProcedureIndex - 1]);
+                SaveWork saveProcedure = view.ModifySaveProcedure(model.backupJobList[saveProcedureIndex - 1]);
                 if (saveProcedure != null)
                 {
                     model.ChangeWork(saveProcedureIndex, saveProcedure.name, saveProcedure.sourcePath, saveProcedure.destinationPath, saveProcedure.type);
@@ -90,7 +90,7 @@ namespace consoleApp.Controller
         private void DeleteSave()
         {
             view.TerminalMessage("delete");
-            int saveProcedureIndex = view.SelectSaveProcedure(model.WorkList);
+            int saveProcedureIndex = view.SelectSaveProcedure(model.backupJobList);
             if (saveProcedureIndex != 9)
             {
                 if (view.Confirm())
@@ -116,11 +116,11 @@ namespace consoleApp.Controller
         {
             if (view.Confirm())
             {
-                for (int i = 1; i < model.WorkList.Length + 1; i++)
+                for (int i = 1; i < model.backupJobList.Count + 1; i++)
                 {
-                    view.SaveInProgressMessage(model.WorkList[i - 1]);
+                    view.SaveInProgressMessage(model.backupJobList[i - 1]);
                     model.DoSave(i);
-                    view.SaveIsDoneMessage(model.WorkList[i - 1]);
+                    view.SaveIsDoneMessage(model.backupJobList[i - 1]);
                 }
                 ShowMenu();
                 return;

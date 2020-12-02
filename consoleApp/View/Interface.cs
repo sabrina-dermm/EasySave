@@ -86,7 +86,7 @@ namespace consoleApp.View
                 }
                 choice[3] = saveTypeChoice;
                 
-
+            
 
                 //Ask for save location in array.
                 Console.WriteLine("\nChoose the save procedure position number. (from 1 to 5)\n");
@@ -196,17 +196,17 @@ namespace consoleApp.View
         }
 
         //Shows the menu from which you can select a save procedure to delete. It receives all the procedures as a parameter.
-        public int SelectSaveProcedure(SaveWork[] _saveList)
+        public int SelectSaveProcedure(List<SaveWork> _saveList)
         {
             if (_saveList == null)
             {
                 Console.WriteLine("\nNo save procedures created yet.");
-                return 9;
+                return 0;
             }
 
             int increment = 0;
-            string regexNumbers = "9"; //Later, we'll check if the value entered by the user is in this regex string, meaning it corresponds to a save procedure or the cancel option. Can be considered as an int list.
-
+            //Later, we'll check if the value entered by the user is in this regex string, meaning it corresponds to a save procedure or the cancel option. Can be considered as an int list.
+            string regexNumbers = "0";
 
             //Write the name of every save procedure in the terminal as a list and add the procedure index in the string regexNumbers.
             foreach (SaveWork saveWork in _saveList)
@@ -218,7 +218,7 @@ namespace consoleApp.View
                     Console.WriteLine(increment + ". " + saveWork.name + "\n");
                 }
             }
-            Console.WriteLine("9. Cancel\n");
+            Console.WriteLine("0. Cancel\n");
 
 
             string enteredValue = Console.ReadLine();
@@ -232,7 +232,16 @@ namespace consoleApp.View
             }
 
             //Will return the index of the save procedure or 9 if "9" is the value entered.
-            return enteredValue != "9" ? int.Parse(enteredValue) : 9;
+            /*
+            if(enteredValue == "0")
+            {
+                return 0;
+            }
+            else
+            {
+                return int.Parse(enteredValue);
+            }*/
+            return enteredValue != "0" ? int.Parse(enteredValue) : 0;
         }
 
         //The user has to confirm critical interactions.
