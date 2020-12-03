@@ -86,28 +86,13 @@ namespace consoleApp.View
                 }
                 choice[3] = saveTypeChoice;
                 
-            
-
-                //Ask for save location in array.
-                Console.WriteLine("\nChoose the save procedure position number. (from 1 to 5)\n");
-                string savePos = Console.ReadLine();
-
-                // Check if input is correct.
-                while (!Regex.IsMatch(savePos, @"^[12345]$"))
-                {
-                    Console.WriteLine("\nPlease enter a correct value to proceed.");
-                    savePos = Console.ReadLine();
-                }
-                choice[4] = savePos;
-            
-            return choice;
+             return choice;
         }
 
         //Allows the user to modifiy an existing save procedure name, source path, destination path and/or type.
         public SaveWork ModifySaveProcedure(SaveWork _save)
         {
-            if (_save.type != SaveWorkType.unset)
-            {
+            
                 SaveWork modifiedSave = _save;
                 string choice = "";
 
@@ -187,12 +172,7 @@ namespace consoleApp.View
 
                 }
                 return choice == "5" ? modifiedSave : null;
-            }
-            else
-            {
-                Console.WriteLine("The Specified save work is currently empty, cannot modify it");
-                return null;
-            }
+           
         }
 
         //Shows the menu from which you can select a save procedure to delete. It receives all the procedures as a parameter.
@@ -212,11 +192,10 @@ namespace consoleApp.View
             foreach (SaveWork saveWork in _saveList)
             {
                 increment++;
-                if (saveWork.type != SaveWorkType.unset)
-                {
+               
                     regexNumbers += increment;
                     Console.WriteLine(increment + ". " + saveWork.name + "\n");
-                }
+                
             }
             Console.WriteLine("0. Cancel\n");
 
@@ -297,10 +276,9 @@ namespace consoleApp.View
 
         public void SaveIsDoneMessage(SaveWork _save) //Done method is different for the launch option as we don't want to show unset save procedures.
         {
-            if (_save.type != SaveWorkType.unset)
-            {
+            
                 Console.WriteLine("\nDone.");
-            }
+            
         }
 
         //Shows a different message depending on selection.

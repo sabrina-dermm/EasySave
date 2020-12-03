@@ -12,8 +12,6 @@ namespace consoleApp.Model
         
         public List<SaveWork> backupJobList { get; set; }
         
-        public SaveWork saveWork { get; set; }
-        //public int NB = -1;
         //the constructer that will create the stateFile
         public ModelS()
         {
@@ -35,11 +33,11 @@ namespace consoleApp.Model
         
 
         //Can create a save work from simple parameters
-        public void CreateWork(int _nb, string _name, string _sourcePath, string _destinationPath, SaveWorkType _type)
+        public void CreateWork(string _name, string _sourcePath, string _destinationPath, SaveWorkType _type)
         {
             SaveWork tempSave = new SaveWork(_name, _sourcePath, _destinationPath, _type);
             UpdateSaveFile(tempSave);
-            CreateLogLine("Creation of a new save work in position " + _nb + ", name : " + tempSave.name + ", source path : " + tempSave.sourcePath + ", destination path : " + tempSave.destinationPath + ", type : " + tempSave.type);
+            CreateLogLine("Creation of a new save work , name : " + tempSave.name + ", source path : " + tempSave.sourcePath + ", destination path : " + tempSave.destinationPath + ", type : " + tempSave.type);
         }
 
         //Modify value of save works objects stored in workList, if there is any null parameters the value attached isn't changed
@@ -63,7 +61,7 @@ namespace consoleApp.Model
         //Can delete a save work (set to null)
         public void DeleteWork(int _nb)
         {
-            backupJobList[_nb - 1] = new SaveWork("", "", "", SaveWorkType.unset);
+            
             deleteJobInStateFile(_nb);
             CreateLogLine("Supression of save work in position" + _nb);
         }
@@ -125,11 +123,6 @@ namespace consoleApp.Model
             //initiate Copy from the source directory to the target directory
             CreateLogLine("Saving file from " + _sourceDirectory + " to " + _targetDirectory + " ...");
             CompleteCopyAll(_nb, diSource, diTarget);
-
-            //Closing the complete save protocol
-            backupJobList[_nb - 1].DeleteSaveProgress();
-            backupJobList[_nb - 1].isActive = false;
-          // UpdateSaveFile(_nb);
             CreateLogLine("Closing complete save work program ...");
         }
 
@@ -218,9 +211,8 @@ namespace consoleApp.Model
                 CreateLogLine("Saving file from " + _sourceDirectory + " to " + _targetDirectory + " ...");
                 DifferencialCopyAll(_nb, diSource, diTarget);
 
-                backupJobList[_nb - 1].DeleteSaveProgress();
-                backupJobList[_nb - 1].isActive = false;
-              //  UpdateSaveFile(_nb);
+
+               
             }
             //If there is no file to save then cancel the saving protocol
             else
@@ -271,7 +263,7 @@ namespace consoleApp.Model
                     backupJobList[_nb - 1].saveProgress.filesRemaining--;
                     backupJobList[_nb - 1].saveProgress.sizeRemaining -= fi.Length;
                     String stringjson2 = JsonConvert.SerializeObject(backupJobList, Formatting.Indented);
-                    File.WriteAllText("state.json", stringjson);
+                    File.WriteAllText("state.json", stringjson2);
                     CreateLogLine(fi.Name + " succesfully saved ! Time spend : " + watch.Elapsed.TotalSeconds.ToString());
                 }
 

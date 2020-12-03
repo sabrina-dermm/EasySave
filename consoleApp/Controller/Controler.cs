@@ -54,7 +54,7 @@ namespace consoleApp.Controller
         {
             string[] saveProcedure = view.CreateSaveProcedure();
 
-            SaveWorkType type = SaveWorkType.unset;
+            SaveWorkType type;
             if (saveProcedure[3] == "1")
             {
                 type = SaveWorkType.complete;
@@ -63,7 +63,7 @@ namespace consoleApp.Controller
             {
                 type = SaveWorkType.differencial;
             }
-            model.CreateWork(int.Parse(saveProcedure[4]), saveProcedure[0], saveProcedure[1], saveProcedure[2], type);
+            model.CreateWork(saveProcedure[0], saveProcedure[1], saveProcedure[2], type);
 
 
             ShowMenu();

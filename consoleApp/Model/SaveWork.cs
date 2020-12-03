@@ -7,8 +7,8 @@ namespace consoleApp.Model
     public enum SaveWorkType
     {
         complete,
-        differencial,
-        unset
+        differencial
+        
     }
     class SaveWork
     {
@@ -63,17 +63,11 @@ namespace consoleApp.Model
             saveProgress = new SaveProgress(totalFilesNumber, totalSize, filesRemaining, progressState, sizeRemaining);
         }
 
-        //Delete the SaveProgress object when the saving protocol stops
-        public void DeleteSaveProgress()
-        {
-            saveProgress = null;
-        }
+       
 
 
 
 
-
-        //Define all the type of save protocols we can have (unset when no protocol is associate with the save work)
     }
    
 }
