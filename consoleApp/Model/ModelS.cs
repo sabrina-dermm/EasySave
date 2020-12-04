@@ -8,10 +8,10 @@ namespace consoleApp.Model
 {
     class ModelS
     {
-        
-        
+
+
         public List<SaveWork> backupJobList { get; set; }
-        
+
         //the constructer that will create the stateFile
         public ModelS()
         {
@@ -30,7 +30,7 @@ namespace consoleApp.Model
             }
         }
 
-        
+
 
         //Can create a save work from simple parameters
         public void CreateWork(string _name, string _sourcePath, string _destinationPath, SaveWorkType _type)
@@ -44,13 +44,13 @@ namespace consoleApp.Model
         public void ChangeWork(int _nb, string _name, string _sourcePath, string _destinationPath, SaveWorkType _type)
         {
             //modify the stateFile
-            SaveWork backUpJobModified = new SaveWork(_name,_sourcePath,_destinationPath,_type );
+            SaveWork backUpJobModified = new SaveWork(_name, _sourcePath, _destinationPath, _type);
 
             modifyStateFile(backUpJobModified, _nb);
-           
+
             CreateLogLine("Modification of a existing save work in position " + _nb + ", current parameters : name : " + backupJobList[_nb - 1].name + ", source path : " + backupJobList[_nb - 1].sourcePath + ", destination path : " + backupJobList[_nb - 1].destinationPath + ", type : " + backupJobList[_nb - 1].type);
         }
-       public void modifyStateFile(SaveWork backUpJobModified, int _nb)
+        public void modifyStateFile(SaveWork backUpJobModified, int _nb)
         {
             string json = File.ReadAllText("state.json");
             backupJobList = JsonConvert.DeserializeObject<List<SaveWork>>(json);
@@ -61,7 +61,7 @@ namespace consoleApp.Model
         //Can delete a save work (set to null)
         public void DeleteWork(int _nb)
         {
-            
+
             deleteJobInStateFile(_nb);
             CreateLogLine("Supression of save work in position" + _nb);
         }
@@ -69,7 +69,7 @@ namespace consoleApp.Model
         {
             string json = File.ReadAllText("state.json");
             backupJobList = JsonConvert.DeserializeObject<List<SaveWork>>(json);
-            backupJobList.RemoveAt(_nb-1);
+            backupJobList.RemoveAt(_nb - 1);
             String stringjson = JsonConvert.SerializeObject(backupJobList, Formatting.Indented);
             File.WriteAllText("state.json", stringjson);
         }
@@ -95,7 +95,7 @@ namespace consoleApp.Model
         private void CompleteSave(int _nb)
         {
             CreateLogLine("Launching save work from position " + _nb + ", type : complete save");
-            CompleteCopy(_nb,backupJobList[_nb - 1].sourcePath, backupJobList[_nb - 1].destinationPath);
+            CompleteCopy(_nb, backupJobList[_nb - 1].sourcePath, backupJobList[_nb - 1].destinationPath);
             CreateLogLine(backupJobList[_nb - 1].name + " save in position " + _nb + " DONE !");
         }
 
@@ -118,7 +118,7 @@ namespace consoleApp.Model
             backupJobList[_nb - 1].isActive = true;
             String stringjson = JsonConvert.SerializeObject(backupJobList, Formatting.Indented);
             File.WriteAllText("state.json", stringjson);
-             
+
 
             //initiate Copy from the source directory to the target directory
             CreateLogLine("Saving file from " + _sourceDirectory + " to " + _targetDirectory + " ...");
@@ -205,14 +205,14 @@ namespace consoleApp.Model
                 String stringjson = JsonConvert.SerializeObject(backupJobList, Formatting.Indented);
                 File.WriteAllText("state.json", stringjson);
 
-                
+
 
                 //initiate Copy from the source directory to the target directory (only the file / directory that has been modified or are new)
                 CreateLogLine("Saving file from " + _sourceDirectory + " to " + _targetDirectory + " ...");
                 DifferencialCopyAll(_nb, diSource, diTarget);
 
 
-               
+
             }
             //If there is no file to save then cancel the saving protocol
             else
@@ -238,7 +238,7 @@ namespace consoleApp.Model
                 //Check if the file already exist or not (new one), and verify if it has been modified or not
                 if (!File.Exists(targetPath) || fi.LastWriteTime != File.GetLastWriteTime(targetPath))
                 {
-                   
+
                     //updateStateFile
                     string json = File.ReadAllText("state.json");
                     backupJobList = JsonConvert.DeserializeObject<List<SaveWork>>(json);
@@ -255,7 +255,7 @@ namespace consoleApp.Model
                     fi.CopyTo(targetPath, true);
                     watch.Stop();
 
-                    
+
 
                     // UpdateSaveFile(_nb);
                     string json2 = File.ReadAllText("state.json");
@@ -304,21 +304,21 @@ namespace consoleApp.Model
 
             if (!File.Exists("log.json"))
             {
-                
+
                 File.WriteAllText("log.json", convertedJson);
             }
             else
             {
                 File.AppendAllText("log.json", convertedJson);
-            }                       
+            }
 
         }
 
-        
-        
+
+
         public void UpdateSaveFile(SaveWork saveW)
         {
-            
+
 
 
             //Check is a save protocol is active or not
@@ -336,23 +336,23 @@ namespace consoleApp.Model
             if (!File.Exists("state.json"))
             {
 
-               
+
                 backupJobList.Add(saveW);
                 String stringjson = JsonConvert.SerializeObject(backupJobList, Formatting.Indented);
 
-                
+
                 File.WriteAllText("state.json", stringjson);
             }
             else
-            {                
-                 string json = File.ReadAllText("state.json");
-                 //Console.WriteLine(json);
-                 backupJobList = JsonConvert.DeserializeObject<List<SaveWork>>(json);
-                 backupJobList.Add(saveW);
-                 String stringjson = JsonConvert.SerializeObject(backupJobList, Formatting.Indented);
-                 File.WriteAllText("state.json", stringjson);
+            {
+                string json = File.ReadAllText("state.json");
+                //Console.WriteLine(json);
+                backupJobList = JsonConvert.DeserializeObject<List<SaveWork>>(json);
+                backupJobList.Add(saveW);
+                String stringjson = JsonConvert.SerializeObject(backupJobList, Formatting.Indented);
+                File.WriteAllText("state.json", stringjson);
             }
-            
+
         }
 
     }
