@@ -16,6 +16,8 @@ namespace consoleApp
             InterFace view = new InterFace(model);
             Controler ctrl = new Controler(model, view);
             ctrl.Start();
+
+
         }
     }
 }
