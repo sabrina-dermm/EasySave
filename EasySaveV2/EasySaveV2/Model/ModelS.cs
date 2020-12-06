@@ -11,8 +11,11 @@ namespace EasySaveV2.Model
 {
     public class ModelS
     {
+
         private static List<SaveWork> saveWorkList;
 
+        static readonly char[] chars =
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
         //Create the constructer
         public ModelS()
         {
@@ -125,6 +128,8 @@ namespace EasySaveV2.Model
              
             return true;
         }
+
+        #region complete Save
         private void CompleteSave(int _nb)
         {
             CreateLogLine("Launching save work from position " + _nb + ", type : complete save");
@@ -203,7 +208,10 @@ namespace EasySaveV2.Model
                 CreateLogLine("Exiting subdirectory : " + diSourceSubDir.Name);
             }
         }
+        #endregion
 
+
+        #region differential Save
         private void DifferencialSave(int _nb)
         {
             CreateLogLine("Launching save work from position " + _nb + ", type : differencial save");
@@ -318,6 +326,7 @@ namespace EasySaveV2.Model
 
             }
         }
+        #endregion
 
         //methode of CreateLogLine
         private void CreateLogLine(String content)
@@ -339,24 +348,56 @@ namespace EasySaveV2.Model
 
         public bool cryptFile(CrypteFile cryptFile)
         {
-         
             
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            try
-            {   
-                EncryptDecrypt(cryptFile.SrcPathCrypt, cryptFile.DestPathCrypt);
-                sw.Stop();
-                //Console.WriteLine((int)sw.ElapsedMilliseconds);
-                Environment.Exit((int)sw.ElapsedMilliseconds);
-            }
-            catch (Exception e)
+            int i = 0;
+            
+            for(int j=0; j<saveWorkList.Count; j++)
             {
-                sw.Stop();
-                // Console.WriteLine((int)sw.ElapsedMilliseconds);
-                Console.WriteLine(e);
-                Environment.Exit(-1);
+                if(saveWorkList[j].NameSave.Equals(cryptFile.NameSaveCrypt))
+                {
+                    i = j;
+                }
             }
+        
+           
+
+            if (saveWorkList[i].NameSave.Equals(cryptFile.NameSaveCrypt))
+            {
+                if (!File.Exists(saveWorkList[i].SrcPath + "/" + cryptFile.NameFileCrypt))
+                {
+                    throw new ArgumentException("The file you want to crypt does not exist");
+                }
+                else
+                {
+                    Stopwatch sw = new Stopwatch();
+                    sw.Start();
+                    try
+                    {
+                        if (!File.Exists(saveWorkList[i].DestPath + "/" + cryptFile.NameFileCrypt))
+                        {
+                            File.WriteAllText(saveWorkList[i].DestPath, "");
+                        }
+                        EncryptDecrypt(saveWorkList[i].SrcPath + "/" + cryptFile.NameFileCrypt, saveWorkList[i].DestPath + "/" + cryptFile.NameFileCrypt);
+                        sw.Stop();
+                        //Console.WriteLine((int)sw.ElapsedMilliseconds);
+                        Environment.Exit((int)sw.ElapsedMilliseconds);
+                    }
+                    catch (Exception e)
+                    {
+                        sw.Stop();
+                        // Console.WriteLine((int)sw.ElapsedMilliseconds);
+                        Console.WriteLine(e);
+                        Environment.Exit(-1);
+                    }
+                }
+
+            }
+            else
+            {
+                throw new ArgumentException("This save is not created yet");
+
+            }
+            
             return true;
         }
 
@@ -396,8 +437,7 @@ namespace EasySaveV2.Model
 
             //return new string(output);
         }
-        static readonly char[] chars =
-            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
+        
 
         private static string GetUniqueKey(int size)
         {

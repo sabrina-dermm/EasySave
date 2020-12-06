@@ -16,17 +16,17 @@ namespace EasySaveV2.Model
             }
         }
 
-        private String srcPathCrypt;
-        public String SrcPathCrypt
+        private String nameSaveCrypt;
+        public String NameSaveCrypt
         {
-            get { return srcPathCrypt; }
-            set { srcPathCrypt = value; OnPropertyChanged("SrcPathCrypt"); }
+            get { return nameSaveCrypt; }
+            set { nameSaveCrypt = value; OnPropertyChanged("NameSaveCrypt"); }
         }
-        private String destPathCrypt;
-        public String DestPathCrypt
+        private String nameFileCrypt;
+        public String NameFileCrypt
         {
-            get { return destPathCrypt; }
-            set { destPathCrypt = value; OnPropertyChanged("DestPathCrypt"); }
+            get { return nameFileCrypt; }
+            set { nameFileCrypt = value; OnPropertyChanged("NameFileCrypt"); }
         }
 
 

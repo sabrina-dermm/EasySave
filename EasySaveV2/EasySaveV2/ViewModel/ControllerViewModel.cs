@@ -171,11 +171,11 @@ namespace EasySaveV2.ViewModel
                 isCrypted = model.cryptFile(CurrentFile);
                 if (isCrypted)
                 {
-                    MessageCrypt = "Cooooooooool";
+                    MessageCrypt = "Crype File succed";
                 }
                 else
                 {
-                    MessageCrypt = "Naaaaaaaaaaaaah";
+                    MessageCrypt = "Crypt File failed";
                 }
 
             }catch(Exception ex)
