@@ -31,7 +31,12 @@ namespace EasySaveV2.ViewModel
             get { return currentSaveWork; }
             set { currentSaveWork = value; OnPropertyChanged("CurrentSaveWork"); }
         }
-       
+        private CrypteFile currentFile;
+        public CrypteFile CurrentFile
+        {
+            get { return currentFile; }
+            set { CurrentFile = value; OnPropertyChanged("CurrentFile"); }
+        }
 
         private String messageSave;
         public String MessageSave
@@ -51,6 +56,12 @@ namespace EasySaveV2.ViewModel
             get { return messageLunchAllSave; }
             set { messageLunchAllSave = value; OnPropertyChanged("MessageLunchAllSave"); }
         }
+        private String messageCrypt;
+        public String MessageCrypt
+        {
+            get { return messageCrypt; }
+            set { messageCrypt = value; OnPropertyChanged("MessageCrypt"); }
+        }
         private RelayCommand saveCommand;
         public RelayCommand SaveCommand
         {
@@ -60,6 +71,11 @@ namespace EasySaveV2.ViewModel
         public RelayCommand LuncgSaveCommand
         {
             get { return lunchSaveCommand; }
+        }
+        private RelayCommand cryptCommand;
+        public RelayCommand CryptCommand
+        {
+            get { return cryptCommand; }
         }
         private RelayCommand lunchAllSaveCommand;
         public RelayCommand LunchAllSaveCommand
@@ -147,6 +163,26 @@ namespace EasySaveV2.ViewModel
 
 
         }
+        private void cryptFile()
+        {
+            var isCrypted = false;
+            try
+            {
+                isCrypted = model.cryptFile(CurrentFile);
+                if (isCrypted)
+                {
+                    MessageCrypt = "Cooooooooool";
+                }
+                else
+                {
+                    MessageCrypt = "Naaaaaaaaaaaaah";
+                }
+
+            }catch(Exception ex)
+            {
+                MessageCrypt = ex.Message;
+            }
+        }
         public ControllerViewModel()
         {
             model = new ModelS();
@@ -155,6 +191,8 @@ namespace EasySaveV2.ViewModel
             saveCommand = new RelayCommand(saveCreate);
             lunchSaveCommand = new RelayCommand(lunchSave);
             lunchAllSaveCommand = new RelayCommand(lunchAllSave);
+            currentFile = new CrypteFile();
+            cryptCommand = new RelayCommand(cryptFile);
         }
         
     }

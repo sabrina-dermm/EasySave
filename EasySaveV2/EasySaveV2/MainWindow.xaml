@@ -23,6 +23,8 @@
                 <Button Content="Create A Save Procedure"  Margin="10" Click="SwitchToCreateSaveView" />
                 <Button Content="Launch all save procedures sequentially"  Margin="10" Click="SwitchToLunchAll"/>
                 <Button Content="Modify A save Procedure"  Margin="10" />
+                <Button Content="Crypte a save"  Margin="10" Click="SwitchToCrypt"/>
+
             </StackPanel>
         </DockPanel>
         
@@ -31,6 +33,7 @@
             <local:CreateSaveView x:Name="CreateSaveV"  Visibility="Collapsed"></local:CreateSaveView>
             <local:EmployeeView x:Name="EmployeeV"  Visibility="Collapsed"></local:EmployeeView>
             <local:LunchAllSaveView x:Name="LunchV"  Visibility="Collapsed"></local:LunchAllSaveView>
+            <local:CryptView x:Name="CryptV"  Visibility="Collapsed"></local:CryptView>
 
         </Grid>
         

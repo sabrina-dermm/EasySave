@@ -41,6 +41,7 @@ namespace EasySaveV2
             EmployeeV.Visibility = Visibility.Collapsed;
             CreateSaveV.Visibility = Visibility.Collapsed;
             LunchV.Visibility = Visibility.Collapsed;
+            CryptV.Visibility = Visibility.Collapsed;
             //show the current user control
             control.Visibility = Visibility.Visible;
         }
@@ -49,6 +50,11 @@ namespace EasySaveV2
         {
             setActiveUserControl(LunchV);
 
+        }
+
+        private void SwitchToCrypt(object sender, RoutedEventArgs e)
+        {
+            setActiveUserControl(CryptV);
         }
     }
 }

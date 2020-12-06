@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.Security.Cryptography;
 
 namespace EasySaveV2.Model
 {
@@ -317,6 +318,7 @@ namespace EasySaveV2.Model
 
             }
         }
+
         //methode of CreateLogLine
         private void CreateLogLine(String content)
         {
@@ -335,6 +337,105 @@ namespace EasySaveV2.Model
         }
 
 
+        public bool cryptFile(CrypteFile cryptFile)
+        {
+         
+            
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            try
+            {   
+                EncryptDecrypt(cryptFile.SrcPathCrypt, cryptFile.DestPathCrypt);
+                sw.Stop();
+                //Console.WriteLine((int)sw.ElapsedMilliseconds);
+                Environment.Exit((int)sw.ElapsedMilliseconds);
+            }
+            catch (Exception e)
+            {
+                sw.Stop();
+                // Console.WriteLine((int)sw.ElapsedMilliseconds);
+                Console.WriteLine(e);
+                Environment.Exit(-1);
+            }
+            return true;
+        }
+
+
+        private static void EncryptDecrypt(string sourcepath, string targetpath)
+        {
+            string pathToKey = @"./key.txt";
+            if (!File.Exists(pathToKey))
+            {
+                File.WriteAllText(pathToKey, GetUniqueKey(264));
+            }
+            byte[] key = Encoding.ASCII.GetBytes(File.ReadAllText(pathToKey));
+
+            byte[] buffer = new byte[4096];
+
+            FileStream fsSource;
+            FileStream fsTarget;
+
+            using (fsSource = new FileStream(sourcepath, FileMode.Open, FileAccess.Read))
+            {
+                //open writting stream
+                using (fsTarget = new FileStream(targetpath, FileMode.OpenOrCreate, FileAccess.Write))
+                {
+                    int bytesRead = 0;
+
+                    //read each byte and call the xor method before write them 
+                    while ((bytesRead = fsSource.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        fsTarget.Write(xorMeThisPlz(buffer, key), 0, bytesRead);
+                    }
+
+                    //clear buffer and write data in the file
+                    fsTarget.Flush();
+                    buffer = null;
+                }
+            }
+
+            //return new string(output);
+        }
+        static readonly char[] chars =
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
+
+        private static string GetUniqueKey(int size)
+        {
+            byte[] data = new byte[4 * size];
+            using (RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider())
+            {
+                crypto.GetBytes(data);
+            }
+            StringBuilder result = new StringBuilder(size);
+            for (int i = 0; i < size; i++)
+            {
+                var rnd = BitConverter.ToUInt32(data, i * 4);
+                var idx = rnd % chars.Length;
+
+                result.Append(chars[idx]);
+            }
+
+            return result.ToString();
+        }
+
+
+        private static byte[] xorMeThisPlz(byte[] data, byte[] key)
+        {
+            /*char[] cryptedData = new char[input.Length];
+			for (int i = 0; i < input.Length; i++)
+			{
+				output[i] = (char)(input[i] ^ key[i % key.Length]);
+			}*/
+
+            byte[] cryptedData = new byte[data.Length];
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                cryptedData[i] = (byte)(data[i] ^ key[i % key.Length]);
+            }
+
+            return cryptedData;
+        }
 
     }
 }
