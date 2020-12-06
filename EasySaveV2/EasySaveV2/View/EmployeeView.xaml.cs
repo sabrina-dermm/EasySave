@@ -11,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace EsaySaveV2._0.View
+namespace EasySaveV2.View
 {
     /// <summary>
-    /// Logique d'interaction pour ModifySaveInterface.xaml
+    /// Logique d'interaction pour EmployeeView.xaml
     /// </summary>
-    public partial class ModifySaveInterface : UserControl
+    public partial class EmployeeView : UserControl
     {
-        public ModifySaveInterface()
+        public EmployeeView()
         {
             InitializeComponent();
         }

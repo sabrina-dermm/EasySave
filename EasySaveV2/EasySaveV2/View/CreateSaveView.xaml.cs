@@ -11,12 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace EsaySaveV2._0.View
+namespace EasySaveV2.View
 {
-    
-    public partial class LunchSaveInterface : UserControl
+    /// <summary>
+    /// Logique d'interaction pour CreateSaveView.xaml
+    /// </summary>
+    public partial class CreateSaveView : UserControl
     {
-        public LunchSaveInterface()
+        public CreateSaveView()
         {
             InitializeComponent();
         }

@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="EasySaveV2.View.CreateSaveView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EasySaveV2.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+
+            <ColumnDefinition />
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Enter the Save Name" Grid.Row="1" Grid.Column="1" Margin="0,10,10,0" />
+        <TextBox Grid.Row="1" Grid.Column="2" Width="150" Margin="10" Text="{Binding Path=CurrentSaveWork.NameSave, Mode=TwoWay}" Grid.ColumnSpan="2"/>
+        <Label Content="Enter the source path" Grid.Row="2" Grid.Column="1" Margin="0,10,10,0" />
+        <TextBox Grid.Row="2" Grid.Column="2" Width="150" Margin="10" Text="{Binding Path=CurrentSaveWork.SrcPath, Mode=TwoWay}" Grid.ColumnSpan="2"/>
+        <Label Content="Enter the destination path" Grid.Row="3" Grid.Column="1" Margin="0,10,10,0"/>
+        <TextBox Grid.Row="3" Grid.Column="2" Width="150" Margin="10" Text="{Binding Path=CurrentSaveWork.DestPath, Mode=TwoWay}" Grid.ColumnSpan="2"/>
+       
+         <Label Content="Enter the type of the save" Grid.Row="4" Grid.Column="1" Margin="0,10,10,0"/>
+        <TextBox Grid.Row="4" Grid.Column="2" Width="150" Margin="10" Text="{Binding Path=CurrentSaveWork.Type, Mode=TwoWay}" Grid.ColumnSpan="2"/>
+        
+        
+        <Button Content="Save" Grid.Row="5" Grid.Column="2" Command="{Binding Path=SaveCommand}"/>
+        <TextBlock Name="txtBlockMessage" Grid.Row="6" Grid.Column="1" Text="{Binding Path=MessageSave}"/>
+        <DataGrid Name="dgSaveWork" AutoGenerateColumns="False" Grid.ColumnSpan="2" Grid.Row="7" Grid.Column="1" Margin="5,8,8,8" Padding="3,3,3,3" ItemsSource="{Binding Path=SaveWorkList, Mode=TwoWay}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Save Name" Width="auto" Binding="{Binding Path=NameSave}"/>
+                <DataGridTextColumn Header="Souce path" Width="auto" Binding="{Binding Path=SrcPath}"/>
+                <DataGridTextColumn Header="Destination path" Width="auto" Binding="{Binding Path=DestPath}"/>
+                <DataGridTextColumn Header="Type" Width="auto" Binding="{Binding Path=Type}"/>
+
+            </DataGrid.Columns>
+        </DataGrid>
+        
+    </Grid>
+</UserControl>
