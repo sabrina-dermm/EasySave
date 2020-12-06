@@ -47,5 +47,28 @@ namespace EasySaveV2.Model
             get { return type; }
             set { type = value; OnPropertyChanged("Type"); }
         }
+        
+
+        //Date of the creation of the object
+
+        public string creationTime { get; set; }
+
+        //Tell if a saving protocol is active or not to the current SaveWork object
+
+        public bool isActive { get; set; }
+
+        //Object defining the save progress when a saving protocol is active
+        public SaveWork()
+        {
+            creationTime = DateTime.Now.ToString();
+            isActive = false;
+            saveProgress = null;
+        }
+        public SaveProgress saveProgress { get; set; }
+
+        public void CreateSaveProgress(int totalFilesNumber, long totalSize, int filesRemaining, int progressState, long sizeRemaining)
+        {
+            saveProgress = new SaveProgress(totalFilesNumber, totalSize, filesRemaining, progressState, sizeRemaining);
+        }
     }
 }

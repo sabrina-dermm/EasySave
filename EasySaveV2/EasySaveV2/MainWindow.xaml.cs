@@ -31,7 +31,7 @@ namespace EasySaveV2
 
         private void HitMe(object sender, RoutedEventArgs e)
         {
-            setActiveUserControl(EmployeeV);
+            setActiveUserControl(Welcome);
         }
         public void setActiveUserControl(UserControl control)
         {
@@ -40,8 +40,15 @@ namespace EasySaveV2
             Welcome.Visibility = Visibility.Collapsed;
             EmployeeV.Visibility = Visibility.Collapsed;
             CreateSaveV.Visibility = Visibility.Collapsed;
+            LunchV.Visibility = Visibility.Collapsed;
             //show the current user control
             control.Visibility = Visibility.Visible;
+        }
+
+        private void SwitchToLunchAll(object sender, RoutedEventArgs e)
+        {
+            setActiveUserControl(LunchV);
+
         }
     }
 }

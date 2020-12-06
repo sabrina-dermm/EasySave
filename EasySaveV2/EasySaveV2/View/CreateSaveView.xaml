@@ -12,6 +12,7 @@
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
 
             <ColumnDefinition />
 
@@ -39,17 +40,19 @@
        
          <Label Content="Enter the type of the save" Grid.Row="4" Grid.Column="1" Margin="0,10,10,0"/>
         <TextBox Grid.Row="4" Grid.Column="2" Width="150" Margin="10" Text="{Binding Path=CurrentSaveWork.Type, Mode=TwoWay}" Grid.ColumnSpan="2"/>
-        
-        
-        <Button Content="Save" Grid.Row="5" Grid.Column="2" Command="{Binding Path=SaveCommand}"/>
-        <TextBlock Name="txtBlockMessage" Grid.Row="6" Grid.Column="1" Text="{Binding Path=MessageSave}"/>
-        <DataGrid Name="dgSaveWork" AutoGenerateColumns="False" Grid.ColumnSpan="2" Grid.Row="7" Grid.Column="1" Margin="5,8,8,8" Padding="3,3,3,3" ItemsSource="{Binding Path=SaveWorkList, Mode=TwoWay}">
+
+        <Button Content="Lunch save" Grid.Row="5" Grid.Column="1" Width="200"  Command="{Binding Path=LuncgSaveCommand}"/>
+
+        <Button Content="Save" Grid.Row="5" Grid.Column="2" Width="200" Command="{Binding Path=SaveCommand}"/>
+        <TextBlock Name="txtBlockMessage" Grid.Row="6" Grid.Column="2" Text="{Binding Path=MessageSave}"/>
+        <TextBlock Name="txtBlockMessage2" Grid.Row="7" Grid.Column="1" Text="{Binding Path=MessageLunchSave}"/>
+
+        <DataGrid Name="dgSaveWork" AutoGenerateColumns="False" Grid.ColumnSpan="2" Grid.Row="9" Grid.Column="1" Margin="5,8,8,8" Padding="3,3,3,3" ItemsSource="{Binding Path=SaveWorkList, Mode=TwoWay}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Save Name" Width="auto" Binding="{Binding Path=NameSave}"/>
                 <DataGridTextColumn Header="Souce path" Width="auto" Binding="{Binding Path=SrcPath}"/>
                 <DataGridTextColumn Header="Destination path" Width="auto" Binding="{Binding Path=DestPath}"/>
                 <DataGridTextColumn Header="Type" Width="auto" Binding="{Binding Path=Type}"/>
-
             </DataGrid.Columns>
         </DataGrid>
         

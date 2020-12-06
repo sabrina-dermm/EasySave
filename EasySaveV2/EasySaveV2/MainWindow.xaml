@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasySaveV2.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="900" WindowStartupLocation="CenterScreen">
+        
+        Title="Easy Save" Height="650" Width="1000" WindowStartupLocation="CenterScreen"
+        >
+        
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -16,10 +19,10 @@
         </Grid.RowDefinitions>
         <DockPanel Grid.Column="0" Grid.Row="0" Background="BlueViolet" Grid.RowSpan="3">
             <StackPanel>
+                <Button Content="Home"  Margin="10" Click="HitMe" />
                 <Button Content="Create A Save Procedure"  Margin="10" Click="SwitchToCreateSaveView" />
-                <Button Content="Lunch A Save Procedure" Margin="10" />
+                <Button Content="Launch all save procedures sequentially"  Margin="10" Click="SwitchToLunchAll"/>
                 <Button Content="Modify A save Procedure"  Margin="10" />
-                <Button Content="Try to git me"  Margin="10" Click="HitMe"/>
             </StackPanel>
         </DockPanel>
         
@@ -27,6 +30,8 @@
             <local:Welcome x:Name="Welcome"></local:Welcome>
             <local:CreateSaveView x:Name="CreateSaveV"  Visibility="Collapsed"></local:CreateSaveView>
             <local:EmployeeView x:Name="EmployeeV"  Visibility="Collapsed"></local:EmployeeView>
+            <local:LunchAllSaveView x:Name="LunchV"  Visibility="Collapsed"></local:LunchAllSaveView>
+
         </Grid>
         
        

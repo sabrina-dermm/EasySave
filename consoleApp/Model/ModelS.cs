@@ -105,7 +105,7 @@ namespace consoleApp.Model
             //Search directory info from source and target path
             var diSource = new DirectoryInfo(_sourceDirectory);
             var diTarget = new DirectoryInfo(_targetDirectory);
-
+            
             //Calculate the number of file in the source directory and the total size of it
             int nbFiles = SourceDirectoryInfo.GetFilesNumberInSourceDirectory(diSource);
             long directorySize = SourceDirectoryInfo.GetSizeInSourceDirectory(diSource);
