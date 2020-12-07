@@ -22,3 +22,6 @@ Developpers :
 Author :
 
 - Sabrina DERMECHE https://github.com/sabrina-dermm/EasySave
+- Shoukry BADANI
+- Oussama ABDEL kRIM
+- karim BENOUMER
