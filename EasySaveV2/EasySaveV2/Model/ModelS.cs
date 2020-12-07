@@ -129,6 +129,24 @@ namespace EasySaveV2.Model
             return true;
         }
 
+        public bool isProcessOn(String p)
+        {
+            bool isOn = false;
+            Process[] liste = Process.GetProcesses();
+
+            foreach (Process k in liste)
+
+            {
+                if (k.ProcessName == p)
+                {
+                    isOn = true;
+                }
+                
+
+            }
+            return isOn;
+        }
+
         #region complete Save
         private void CompleteSave(int _nb)
         {
@@ -216,6 +234,7 @@ namespace EasySaveV2.Model
         {
             CreateLogLine("Launching save work from position " + _nb + ", type : differencial save");
             DifferencialCopy(_nb, saveWorkList[_nb - 1].SrcPath, saveWorkList[_nb - 1].DestPath);
+            CreateLogLine("The time of encryption is 0");
             CreateLogLine(saveWorkList[_nb - 1].NameSave + " save in position " + _nb + " DONE !");
         }
         private void DifferencialCopy(int _nb, string _sourceDirectory, string _targetDirectory)
@@ -379,6 +398,7 @@ namespace EasySaveV2.Model
                         }
                         EncryptDecrypt(saveWorkList[i].SrcPath + "/" + cryptFile.NameFileCrypt, saveWorkList[i].DestPath + "/" + cryptFile.NameFileCrypt);
                         sw.Stop();
+                        CreateLogLine("the cryption of "+cryptFile.NameFileCrypt +" file is succed Time spend : " + (int)sw.ElapsedMilliseconds);
                         //Console.WriteLine((int)sw.ElapsedMilliseconds);
                         Environment.Exit((int)sw.ElapsedMilliseconds);
                     }
@@ -475,6 +495,25 @@ namespace EasySaveV2.Model
             }
 
             return cryptedData;
+        }
+
+        public bool processTrack(ProcessTrack p)
+        {
+            bool isOn = false;
+            Process[] liste = Process.GetProcesses();
+
+            foreach (Process k in liste)
+
+            {
+                if (k.ProcessName == p.ProcessName)
+                {
+                    isOn = true;
+                    break;
+                }
+                
+
+            }
+            return isOn;
         }
 
     }

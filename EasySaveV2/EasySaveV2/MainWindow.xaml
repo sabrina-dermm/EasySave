@@ -5,9 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasySaveV2.View"
         mc:Ignorable="d"
-        
-        Title="Easy Save" Height="650" Width="1000" WindowStartupLocation="CenterScreen"
-        >
+        Title="Easy Save" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
         
     <Grid>
         <Grid.ColumnDefinitions>
@@ -31,7 +29,6 @@
          <Grid  Grid.Column="2" x:Name="gridContainer">
             <local:Welcome x:Name="Welcome"></local:Welcome>
             <local:CreateSaveView x:Name="CreateSaveV"  Visibility="Collapsed"></local:CreateSaveView>
-            <local:EmployeeView x:Name="EmployeeV"  Visibility="Collapsed"></local:EmployeeView>
             <local:LunchAllSaveView x:Name="LunchV"  Visibility="Collapsed"></local:LunchAllSaveView>
             <local:CryptView x:Name="CryptV"  Visibility="Collapsed"></local:CryptView>
 

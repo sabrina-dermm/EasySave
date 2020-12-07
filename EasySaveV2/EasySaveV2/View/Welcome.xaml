@@ -7,6 +7,24 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
-        <TextBlock Text="Welcome to Easy Save " />
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+
+        </Grid.RowDefinitions>
+        <TextBlock Text="Welcome to easy Save" Grid.Column="1" Grid.Row="1"  Margin="50"/>
+        <Label Content="Enter the softwar you want to track " Margin="10" Grid.Row="2" Grid.Column="1"/>
+        <TextBox Grid.Row="2" Grid.Column="2" Margin="10" Width="150" Text="{Binding Path=CurrentProcessTrack.ProcessName}"/>
+        <Button Content="Track" Grid.Column="2" Grid.Row="3" Margin="10" Command="{Binding Path=ProcessCommand}"/>
+        <TextBlock Grid.Row="3" Grid.Column="1" Margin="10" Width="150" Text="{Binding Path=MessageProcess}"/>
+
     </Grid>
 </UserControl>

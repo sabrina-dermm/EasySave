@@ -31,6 +31,12 @@ namespace EasySaveV2.ViewModel
             get { return currentSaveWork; }
             set { currentSaveWork = value; OnPropertyChanged("CurrentSaveWork"); }
         }
+        private ProcessTrack currentProcessTrack;
+        public ProcessTrack CurrentProcessTrack
+        {
+            get { return currentProcessTrack; }
+            set { currentProcessTrack = value; OnPropertyChanged("currentProcessTrack"); }
+        }
         private CrypteFile currentFile;
         public CrypteFile CurrentFile
         {
@@ -62,6 +68,12 @@ namespace EasySaveV2.ViewModel
             get { return messageCrypt; }
             set { messageCrypt = value; OnPropertyChanged("MessageCrypt"); }
         }
+        private String messageProcess;
+        public String MessageProcess
+        {
+            get { return messageProcess; }
+            set { messageProcess = value; OnPropertyChanged("MessageProcess"); }
+        }
         private RelayCommand saveCommand;
         public RelayCommand SaveCommand
         {
@@ -81,6 +93,11 @@ namespace EasySaveV2.ViewModel
         public RelayCommand LunchAllSaveCommand
         {
             get { return lunchAllSaveCommand; }
+        }
+        private RelayCommand processCommand;
+        public RelayCommand ProcessCommand
+        {
+            get { return processCommand; }
         }
         public void getSaveWorkList()
         {
@@ -113,19 +130,27 @@ namespace EasySaveV2.ViewModel
         {
             var IsSaved = false;
             try
-            {               
-                    IsSaved = model.lunchSave(saveWorkList.Count);
-                    getSaveWorkList();
-                
-                
-                if (IsSaved)
+            {
+                if (model.isProcessOn(CurrentProcessTrack.ProcessName))
                 {
-                    MessageLunchSave = "Lunch Save succed";
+                    MessageLunchSave = "You can't save because " + CurrentProcessTrack.ProcessName + " is on";
                 }
                 else
                 {
-                    MessageLunchSave = "Lunch Save failed !";
-                }
+                    IsSaved = model.lunchSave(saveWorkList.Count);
+                    getSaveWorkList();
+
+
+                    if (IsSaved)
+                    {
+                        MessageLunchSave = "Lunch Save succed";
+                    }
+                    else
+                    {
+                        MessageLunchSave = "Lunch Save failed !";
+                    }
+                }       
+                   
             }
             catch(Exception ex)
             {
@@ -163,6 +188,23 @@ namespace EasySaveV2.ViewModel
 
 
         }
+        public void isOnProcess()
+        {
+            try
+            {
+                if (model.processTrack(CurrentProcessTrack))
+                {
+                    MessageProcess = "The process is on";
+                }
+                else
+                {
+                    MessageProcess = "The process is not on";
+                }
+            }catch(Exception ex)
+            {
+                MessageProcess = ex.Message;
+            }
+        }
         private void cryptFile()
         {
             var isCrypted = false;
@@ -193,6 +235,8 @@ namespace EasySaveV2.ViewModel
             lunchAllSaveCommand = new RelayCommand(lunchAllSave);
             currentFile = new CrypteFile();
             cryptCommand = new RelayCommand(cryptFile);
+            currentProcessTrack = new ProcessTrack();
+            processCommand = new RelayCommand(isOnProcess);
         }
         
     }

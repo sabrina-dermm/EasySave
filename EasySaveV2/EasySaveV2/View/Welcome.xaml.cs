@@ -22,5 +22,7 @@ namespace EasySaveV2.View
         {
             InitializeComponent();
         }
+
+       
     }
 }

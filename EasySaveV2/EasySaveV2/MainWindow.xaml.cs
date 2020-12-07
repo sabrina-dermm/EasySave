@@ -38,7 +38,6 @@ namespace EasySaveV2
             //Collapse all the usercontrol
            
             Welcome.Visibility = Visibility.Collapsed;
-            EmployeeV.Visibility = Visibility.Collapsed;
             CreateSaveV.Visibility = Visibility.Collapsed;
             LunchV.Visibility = Visibility.Collapsed;
             CryptV.Visibility = Visibility.Collapsed;
