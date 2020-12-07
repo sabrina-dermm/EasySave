@@ -18,3 +18,7 @@ User :
 Developpers :
 
 - You can download or clone the git repository in order to access the code etc...
+
+Author :
+
+- Sabrina DERMECHE https://github.com/sabrina-dermm/EasySave
