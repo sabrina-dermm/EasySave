@@ -17,11 +17,12 @@
         </Grid.RowDefinitions>
         <DockPanel Grid.Column="0" Grid.Row="0" Background="BlueViolet" Grid.RowSpan="3">
             <StackPanel>
-                <Button Content="Home"  Margin="10" Click="HitMe" />
-                <Button Content="Create A Save Procedure"  Margin="10" Click="SwitchToCreateSaveView" />
-                <Button Content="Launch all save procedures sequentially"  Margin="10" Click="SwitchToLunchAll"/>
-                <Button Content="Modify A save Procedure"  Margin="10" />
-                <Button Content="Crypte a save"  Margin="10" Click="SwitchToCrypt"/>
+                <Button x:Name="changeLangueF" Content="Change language in french " Margin="10" Click="chageLanguageF"/>
+                <Button x:Name="changeLangueA" Content="Passer en Englais" Margin="10" Visibility="Collapsed" Click="chageLanguageA"/>
+                <Button x:Name="homeButtonLan" Content="Home"  Margin="10" Click="HitMe" />
+                <Button x:Name="saveButtonLan" Content="Create A Save Procedure"  Margin="10" Click="SwitchToCreateSaveView" />
+                <Button x:Name="lunchButtonLan" Content="Launch all save procedures sequentially"  Margin="10" Click="SwitchToLunchAll"/>
+                <Button x:Name="cryptButtonLan" Content="Crypte a save"  Margin="10" Click="SwitchToCrypt"/>
 
             </StackPanel>
         </DockPanel>
@@ -31,7 +32,10 @@
             <local:CreateSaveView x:Name="CreateSaveV"  Visibility="Collapsed"></local:CreateSaveView>
             <local:LunchAllSaveView x:Name="LunchV"  Visibility="Collapsed"></local:LunchAllSaveView>
             <local:CryptView x:Name="CryptV"  Visibility="Collapsed"></local:CryptView>
-
+            <local:Acceuil x:Name="AcceuilV" Visibility="Collapsed"></local:Acceuil>
+            <local:CreerSauvView x:Name="CreerSauvV" Visibility="Collapsed"></local:CreerSauvView>
+            <local:LancerTousSauvView x:Name="LancerSauvV" Visibility="Collapsed"></local:LancerTousSauvView>
+            <local:CrypterView x:Name="CrypterV" Visibility="Collapsed"></local:CrypterView>
         </Grid>
         
        

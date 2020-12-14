@@ -365,20 +365,22 @@ namespace EasySaveV2.Model
         }
 
 
+
+        #region Cryption
         public bool cryptFile(CrypteFile cryptFile)
         {
-            
+
             int i = 0;
-            
-            for(int j=0; j<saveWorkList.Count; j++)
+
+            for (int j = 0; j < saveWorkList.Count; j++)
             {
-                if(saveWorkList[j].NameSave.Equals(cryptFile.NameSaveCrypt))
+                if (saveWorkList[j].NameSave.Equals(cryptFile.NameSaveCrypt))
                 {
                     i = j;
                 }
             }
-        
-           
+
+
 
             if (saveWorkList[i].NameSave.Equals(cryptFile.NameSaveCrypt))
             {
@@ -398,7 +400,7 @@ namespace EasySaveV2.Model
                         }
                         EncryptDecrypt(saveWorkList[i].SrcPath + "/" + cryptFile.NameFileCrypt, saveWorkList[i].DestPath + "/" + cryptFile.NameFileCrypt);
                         sw.Stop();
-                        CreateLogLine("the cryption of "+cryptFile.NameFileCrypt +" file is succed Time spend : " + (int)sw.ElapsedMilliseconds);
+                        CreateLogLine("the cryption of " + cryptFile.NameFileCrypt + " file is succed Time spend : " + (int)sw.ElapsedMilliseconds);
                         //Console.WriteLine((int)sw.ElapsedMilliseconds);
                         Environment.Exit((int)sw.ElapsedMilliseconds);
                     }
@@ -417,10 +419,9 @@ namespace EasySaveV2.Model
                 throw new ArgumentException("This save is not created yet");
 
             }
-            
+
             return true;
         }
-
 
         private static void EncryptDecrypt(string sourcepath, string targetpath)
         {
@@ -457,7 +458,7 @@ namespace EasySaveV2.Model
 
             //return new string(output);
         }
-        
+
 
         private static string GetUniqueKey(int size)
         {
@@ -496,7 +497,9 @@ namespace EasySaveV2.Model
 
             return cryptedData;
         }
+        #endregion
 
+        //Modifier la fonction on doit mettre une liste 
         public bool processTrack(ProcessTrack p)
         {
             bool isOn = false;

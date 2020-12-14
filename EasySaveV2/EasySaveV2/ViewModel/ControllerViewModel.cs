@@ -10,6 +10,7 @@ namespace EasySaveV2.ViewModel
 {
     public class ControllerViewModel : INotifyPropertyChanged
     {
+        ModelS model;
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(String propertyChanged)
         {
@@ -18,25 +19,28 @@ namespace EasySaveV2.ViewModel
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyChanged));
             }
         }
-        ModelS model;
+
         private ObservableCollection<SaveWork> saveWorkList;
         public ObservableCollection<SaveWork> SaveWorkList
         {
             get { return saveWorkList; }
             set { saveWorkList = value; OnPropertyChanged("SaveWorkList"); }
         }
+
         private SaveWork currentSaveWork;
         public SaveWork CurrentSaveWork
         {
             get { return currentSaveWork; }
             set { currentSaveWork = value; OnPropertyChanged("CurrentSaveWork"); }
         }
+
         private ProcessTrack currentProcessTrack;
         public ProcessTrack CurrentProcessTrack
         {
             get { return currentProcessTrack; }
             set { currentProcessTrack = value; OnPropertyChanged("currentProcessTrack"); }
         }
+
         private CrypteFile currentFile;
         public CrypteFile CurrentFile
         {
@@ -50,55 +54,79 @@ namespace EasySaveV2.ViewModel
             get { return messageSave; }
             set { messageSave = value; OnPropertyChanged("MessageSave"); }
         }
+
         private String messageLunchSave;
         public String MessageLunchSave
         {
             get { return messageLunchSave; }
             set { messageLunchSave = value; OnPropertyChanged("MessageLunchSave"); }
         }
+
         private String messageLunchAllSave;
         public String MessageLunchAllSave
         {
             get { return messageLunchAllSave; }
             set { messageLunchAllSave = value; OnPropertyChanged("MessageLunchAllSave"); }
         }
+
         private String messageCrypt;
         public String MessageCrypt
         {
             get { return messageCrypt; }
             set { messageCrypt = value; OnPropertyChanged("MessageCrypt"); }
         }
+
         private String messageProcess;
         public String MessageProcess
         {
             get { return messageProcess; }
             set { messageProcess = value; OnPropertyChanged("MessageProcess"); }
         }
+
         private RelayCommand saveCommand;
         public RelayCommand SaveCommand
         {
             get { return saveCommand; }
         }
+
         private RelayCommand lunchSaveCommand;
         public RelayCommand LuncgSaveCommand
         {
             get { return lunchSaveCommand; }
         }
+
         private RelayCommand cryptCommand;
         public RelayCommand CryptCommand
         {
             get { return cryptCommand; }
         }
+
         private RelayCommand lunchAllSaveCommand;
         public RelayCommand LunchAllSaveCommand
         {
             get { return lunchAllSaveCommand; }
         }
+
         private RelayCommand processCommand;
         public RelayCommand ProcessCommand
         {
             get { return processCommand; }
         }
+
+        public ControllerViewModel()
+        {
+            model = new ModelS();
+            getSaveWorkList();
+            currentSaveWork = new SaveWork();
+            saveCommand = new RelayCommand(saveCreate);
+            lunchSaveCommand = new RelayCommand(lunchSave);
+            lunchAllSaveCommand = new RelayCommand(lunchAllSave);
+            currentFile = new CrypteFile();
+            cryptCommand = new RelayCommand(cryptFile);
+            currentProcessTrack = new ProcessTrack();
+            processCommand = new RelayCommand(isOnProcess);
+        }
+
         public void getSaveWorkList()
         {
             SaveWorkList = new ObservableCollection<SaveWork>(model.getAll());
@@ -225,19 +253,9 @@ namespace EasySaveV2.ViewModel
                 MessageCrypt = ex.Message;
             }
         }
-        public ControllerViewModel()
-        {
-            model = new ModelS();
-            getSaveWorkList();
-            currentSaveWork = new SaveWork();
-            saveCommand = new RelayCommand(saveCreate);
-            lunchSaveCommand = new RelayCommand(lunchSave);
-            lunchAllSaveCommand = new RelayCommand(lunchAllSave);
-            currentFile = new CrypteFile();
-            cryptCommand = new RelayCommand(cryptFile);
-            currentProcessTrack = new ProcessTrack();
-            processCommand = new RelayCommand(isOnProcess);
-        }
+       
         
+
+
     }
 }
