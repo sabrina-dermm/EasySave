@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,6 +24,10 @@ namespace EasySaveV2.View
             InitializeComponent();
         }
 
-       
+        private void openStateFileClick(object sender, RoutedEventArgs e)
+        {
+            Process p = new Process();
+            Process.Start("Notepad++");
+        }
     }
 }

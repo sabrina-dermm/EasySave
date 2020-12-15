@@ -6,6 +6,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Security.Cryptography;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace EasySaveV2.Model
 {
@@ -111,9 +113,30 @@ namespace EasySaveV2.Model
         {
             
             SaveWork work ;
-            work = saveWorkList[index-1];            
-           
             
+            work = saveWorkList[index-1];
+            if (Directory.Exists(work.SrcPath))
+            {
+                if (work.Type == "complete")
+                {
+                    CompleteSave(index);
+                    CreateLogLine("Launching save work from position " + index + ", type : complete save");
+                }
+                else if (work.Type == "differencial")
+                {
+                    DifferencialSave(index);
+                }
+            }         
+            return true;
+        }
+
+        public bool lunchSaveSync(int index)
+        {
+
+            SaveWork work;
+            work = saveWorkList[index - 1];
+
+
             if (Directory.Exists(work.SrcPath))
             {
                 if (work.Type == "complete")
@@ -125,26 +148,9 @@ namespace EasySaveV2.Model
                     DifferencialSave(index);
                 }
             }
-             
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
             return true;
-        }
-
-        public bool isProcessOn(String p)
-        {
-            bool isOn = false;
-            Process[] liste = Process.GetProcesses();
-
-            foreach (Process k in liste)
-
-            {
-                if (k.ProcessName == p)
-                {
-                    isOn = true;
-                }
-                
-
-            }
-            return isOn;
         }
 
         #region complete Save
@@ -152,7 +158,7 @@ namespace EasySaveV2.Model
         {
             CreateLogLine("Launching save work from position " + _nb + ", type : complete save");
             CompleteCopy(_nb, saveWorkList[_nb - 1].SrcPath, saveWorkList[_nb - 1].DestPath);
-            CreateLogLine(saveWorkList[_nb - 1].NameSave + " save in position " + _nb + " DONE !");
+           CreateLogLine(saveWorkList[_nb - 1].NameSave + " save in position " + _nb + " DONE !");
         }
         private void CompleteCopy(int _nb, string _sourceDirectory, string _targetDirectory)
         {
@@ -347,6 +353,23 @@ namespace EasySaveV2.Model
         }
         #endregion
 
+
+       public bool useSemaphoreToLunchAllSaves(int[] tableaudesindex)
+        {
+            bool succed = false;
+            Semaphore semaphoreObject = new Semaphore(initialCount: tableaudesindex.Length, maximumCount: tableaudesindex.Length, name: "SaveApp");
+            for (int i = 0; i < tableaudesindex.Length; i++)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    semaphoreObject.WaitOne();
+                    succed = lunchSaveSync(tableaudesindex[i] + 1);
+                    semaphoreObject.Release();
+                });
+            }
+            return succed;
+        }
+
         //methode of CreateLogLine
         private void CreateLogLine(String content)
         {
@@ -518,6 +541,80 @@ namespace EasySaveV2.Model
             }
             return isOn;
         }
+        public bool isPropretyCheck(Priority p)
+        {
+            var isCheck = false;
+            if(!Regex.IsMatch(p.ExtentionList, @"^[a-z ]+$"))
+            {
+                throw new ArgumentException("Please only make use of caracters and space");
+
+            }
+            else
+            {
+                if (!Regex.IsMatch(p.SizeFile, @"^[1-9]+$"))
+                {
+                    throw new ArgumentException("Please only make use of numbers !");
+                }
+                else
+                {
+                    isCheck = true;
+
+                }
+            }
+            return isCheck;
+        }
+
+        public List<SaveWork> returnPriority(List<SaveWork> list)
+        {
+            return list;
+        }
+
+        public List<SaveWork> returnPriorityList(List<SaveWork>list, Priority p)
+        {
+            List<SaveWork> priorityList = new List<SaveWork>() ;
+            String[] extentions = p.ExtentionList.Split(" ");            
+            int j = 0;
+            DirectoryInfo directorySource;
+            long directorySize = 0;
+            for (int i=0; i<list.Count; i++)
+            {
+                while(Directory.GetFiles(list[i].SrcPath, extentions[j]).Length==0 && j < extentions.Length)
+                {
+                    j++;
+                }
+
+                if (Directory.GetFiles(list[i].SrcPath, extentions[j]).Length != 0)
+                {
+                    //Search directory info from source and target path
+                    directorySource = new DirectoryInfo(list[i].SrcPath);
+                    //Calculate the total size of th file
+                    directorySize = SourceDirectoryInfo.GetSizeInSourceDirectory(directorySource);
+                    
+                    //converte kiloByte in byte
+                    if (directorySize < int.Parse(p.SizeFile)*1000)
+                    {
+                        priorityList.Add(list[i]);
+                    }
+                }                               
+            }
+            if(priorityList.Count == 0)
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+                    directorySource = new DirectoryInfo(list[i].SrcPath);
+                    //Calculate the total size of th file
+                    directorySize = SourceDirectoryInfo.GetSizeInSourceDirectory(directorySource);
+
+                    //converte kiloByte in byte
+                    if (directorySize < int.Parse(p.SizeFile)*1000)
+                    {
+                        priorityList.Add(list[i]);
+                    }
+                }
+            }
+            return priorityList;
+        }
+
 
     }
 }

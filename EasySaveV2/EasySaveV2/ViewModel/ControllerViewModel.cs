@@ -4,7 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace EasySaveV2.ViewModel
 {
@@ -45,7 +48,14 @@ namespace EasySaveV2.ViewModel
         public CrypteFile CurrentFile
         {
             get { return currentFile; }
-            set { CurrentFile = value; OnPropertyChanged("CurrentFile"); }
+            set { currentFile = value; OnPropertyChanged("CurrentFile"); }
+        }
+
+        private Priority currentPriority;
+        public Priority CurrentPriority
+        {
+            get { return currentPriority; }
+            set { currentPriority = value; OnPropertyChanged("CurrentPriority"); }
         }
 
         private String messageSave;
@@ -82,6 +92,12 @@ namespace EasySaveV2.ViewModel
             get { return messageProcess; }
             set { messageProcess = value; OnPropertyChanged("MessageProcess"); }
         }
+        private String messageProprty;
+        public String MessageProprty
+        {
+            get { return messageProprty; }
+            set { messageProprty = value; OnPropertyChanged("MessageProprty"); }
+        }
 
         private RelayCommand saveCommand;
         public RelayCommand SaveCommand
@@ -112,7 +128,12 @@ namespace EasySaveV2.ViewModel
         {
             get { return processCommand; }
         }
-
+        
+        private RelayCommand priorityCommand;
+        public RelayCommand PriorityCommand
+        {
+            get { return priorityCommand; }
+        }
         public ControllerViewModel()
         {
             model = new ModelS();
@@ -120,11 +141,13 @@ namespace EasySaveV2.ViewModel
             currentSaveWork = new SaveWork();
             saveCommand = new RelayCommand(saveCreate);
             lunchSaveCommand = new RelayCommand(lunchSave);
-            lunchAllSaveCommand = new RelayCommand(lunchAllSave);
+            lunchAllSaveCommand = new RelayCommand(lunchAllSaveSyc);
             currentFile = new CrypteFile();
             cryptCommand = new RelayCommand(cryptFile);
             currentProcessTrack = new ProcessTrack();
             processCommand = new RelayCommand(isOnProcess);
+            currentPriority = new Priority();
+            priorityCommand = new RelayCommand(isPropretyCheck);
         }
 
         public void getSaveWorkList()
@@ -159,7 +182,7 @@ namespace EasySaveV2.ViewModel
             var IsSaved = false;
             try
             {
-                if (model.isProcessOn(CurrentProcessTrack.ProcessName))
+                if (model.processTrack(CurrentProcessTrack))
                 {
                     MessageLunchSave = "You can't save because " + CurrentProcessTrack.ProcessName + " is on";
                 }
@@ -187,18 +210,110 @@ namespace EasySaveV2.ViewModel
 
             
         }
-        public void lunchAllSave()
-        {
-            var IsSaved = false;
+        
+        Semaphore semaphoreObject = new Semaphore(initialCount: 1, maximumCount: 4, name: "SaveApp");
+       
+       
+            public void SaveSync(object index)
+            {
+          
             try
             {
-                for(int i=1; i <= saveWorkList.Count; i++)
-                {
-                    IsSaved = model.lunchSave(i);
-                    getSaveWorkList();
-                }
-                
+                //Blocks the current thread until the current WaitHandle receives a signal.   
+                semaphoreObject.WaitOne();
+                model.lunchSave((int)index+1);
+               // lunchSyncSave((int)index);
+                MessageLunchAllSave = String.Concat("\n Save "+index, MessageLunchAllSave);
+                Thread.Sleep(TimeSpan.FromSeconds(2));
+            }
+            finally
+            {
+                semaphoreObject.Release();
 
+            }
+        }
+        public void lunchSyncSave(int index)
+        {
+            SaveWork work;
+
+            work = saveWorkList[index];
+            if (Directory.Exists(work.SrcPath))
+            {
+                if (work.Type == "complete")
+                {
+                    //CompleteSave(index);
+                    //CreateLogLine("Launching save work from position " + index + ", type : complete save");
+                }
+                else if (work.Type == "differencial")
+                {
+                    //DifferencialSave(index);
+                }
+            }
+        }
+        public void lunchAllSaveSyc()
+        {
+            int i = 0;
+            try
+            {    /* 
+                foreach(SaveWork s in saveWorkList)
+                {
+                    Thread thread = new Thread(UpdateText);
+                    thread.Start(i);
+                    i++;
+                }
+                */
+                while (i <saveWorkList.Count)
+                {
+                    Thread thread = new Thread(SaveSync);
+                    thread.Start(i);
+                    i++;
+                }
+                              
+
+            }
+            catch (Exception ex)
+            {
+                MessageLunchAllSave = ex.Message;
+            }
+
+            
+        }
+        
+        public void lunchAllSave()
+        {
+            
+            List<SaveWork> s = model.getAll();
+            var IsSaved = false;
+            List<SaveWork> saveWorkPriorrtyList = model.returnPriorityList(s, CurrentPriority);
+            int[] indexP = new int[saveWorkPriorrtyList.Count];
+            int[] indexNP = new int[saveWorkList.Count - saveWorkPriorrtyList.Count];
+
+            int i_index=0 , i_indexNP = 0;
+            int j = 0;
+
+            //un boucle pour avoir chaque index des sauvegardes prioritaires et non prioritaires et les stockées dans une tables
+            while (saveWorkPriorrtyList.Count < j)
+            {
+                for (int i = 0; i < s.Count; i++)
+                {
+                    if (s[i] == saveWorkPriorrtyList[j])
+                    {
+                        indexP[i_index] = i;
+                        i_index++;
+                    }
+                    else
+                    {
+                        indexNP[i_indexNP] = i;
+                        i_indexNP++;
+                    }
+            }
+                j++;
+            }
+          
+            try
+            {
+               //IsSaved = model.useSemaphoreToLunchAllSaves(indexP);
+               IsSaved = model.useSemaphoreToLunchAllSaves(indexNP);
 
                 if (IsSaved)
                 {
@@ -216,6 +331,7 @@ namespace EasySaveV2.ViewModel
 
 
         }
+
         public void isOnProcess()
         {
             try
@@ -231,6 +347,24 @@ namespace EasySaveV2.ViewModel
             }catch(Exception ex)
             {
                 MessageProcess = ex.Message;
+            }
+        }
+        public void isPropretyCheck()
+        {
+            try
+            {
+                if (model.isPropretyCheck(CurrentPriority))
+                {
+                    MessageProprty = "The propreties are saved";
+                }
+                else
+                {
+                    MessageProprty = "The propreties are not valid";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageProprty = ex.Message;
             }
         }
         private void cryptFile()

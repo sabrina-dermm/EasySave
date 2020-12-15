@@ -21,8 +21,13 @@
         </Grid.RowDefinitions>
 
         <Button Content="Lunch all saves" Grid.Column="1" Grid.Row="1" Margin="10,10,97,10" Command="{Binding Path=LunchAllSaveCommand}"/>
-        <TextBlock Name="txtBlockMessage3" Grid.Row="2" Grid.Column="1" Text="{Binding Path=MessageLunchAllSave}"/>
-
+        <TextBox  Grid.Row="2" Grid.Column="1" Name="txtBlockMessage3"
+            Text="{Binding Path=MessageLunchAllSave}"
+            TextWrapping="Wrap"
+            AcceptsReturn="True"
+            VerticalScrollBarVisibility="Visible"
+         ></TextBox>
+        
         <DataGrid Name="dgSaveWork" AutoGenerateColumns="False" Grid.ColumnSpan="3" Grid.Row="3" Grid.Column="1" Margin="5,8,8,8" Padding="3,3,3,3" ItemsSource="{Binding Path=SaveWorkList, Mode=TwoWay}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Save Name" Width="auto" Binding="{Binding Path=NameSave}"/>
