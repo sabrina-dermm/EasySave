@@ -11,13 +11,14 @@
             <TextBlock Text="Create Save Procedure" TextAlignment="Center" VerticalAlignment="Center" FontSize="22"/>
 
         </Grid>
-        <Grid Margin="-10,63,10,287" Height="200">
+        <Grid Margin="-10,63,10,287" Height="230">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="250"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
@@ -31,10 +32,14 @@
             <TextBox Grid.Row="2" Grid.Column="1"  Text="{Binding Path=CurrentSaveWork.DestPath, Mode=TwoWay}" Margin="25,10,25,0" Height="40" VerticalAlignment="Top"/>
             <Label Grid.Row="3" Grid.Column="0" Content="Enter the type of the save"   Margin="25,19,25,5" FontSize="12.4"/>
             <TextBox Grid.Row="3" Grid.Column="1"  Text="{Binding Path=CurrentSaveWork.Type, Mode=TwoWay}" Margin="25,10,25,0" Height="40" VerticalAlignment="Top"/>
-            <Button  Grid.Row="0" Grid.Column="2" Content="Lunch save"  Width="200"  Command="{Binding Path=LuncgSaveCommand}"/>
-            <Button Grid.Row="1" Grid.Column="2" Content="Save"  Width="200" Command="{Binding Path=SaveCommand}"/>
+            <Button Grid.Row="0" Grid.Column="2" Content="Save"  Width="200" Command="{Binding Path=SaveCommand}"/>
+            <Button  Grid.Row="1" Grid.Column="2" Content="Lunch save"  Width="200"  Command="{Binding Path=LuncgSaveCommand}" Click="LunchClick"/>
+            <Button x:Name="pauseButton" Grid.Row="4" Grid.Column="0" Content="Pause save"  Width="200" Command="{Binding Path=PauseSaveCommand}" Visibility="Collapsed" Click="PauseClick"/>
+            <Button x:Name="playButton" Grid.Row="4" Grid.Column="0" Content="Play save"  Width="200" Command="{Binding Path=ContinueSaveCommand}" Visibility="Collapsed" Click="ContinueClick"/>
+            <Button x:Name="stopButton" Grid.Row="4" Grid.Column="1" Content="Stop save"  Width="200" Command="{Binding Path=StopSaveCommand}" Visibility="Collapsed" Click="StopClick"/>
             <TextBlock Grid.Row="2" Grid.Column="2"  Name="txtBlockMessage" Text="{Binding Path=MessageSave}"  Margin="25,10,25,0" Height="40" Foreground="#FFE81616" FontSize="12.4"/>
             <TextBlock Grid.Row="3" Grid.Column="2" Name="txtBlockMessage2"  Text="{Binding Path=MessageLunchSave}"  Margin="25,10,25,0" Height="40" Foreground="#FFE81616" FontSize="12.4"/>
+        
         </Grid>
         <Grid>
             

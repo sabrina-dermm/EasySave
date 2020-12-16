@@ -134,6 +134,24 @@ namespace EasySaveV2.ViewModel
         {
             get { return priorityCommand; }
         }
+        private RelayCommand pauseSaveCommand;
+        public RelayCommand PauseSaveCommand
+        {
+            get { return pauseSaveCommand; }
+        }
+        private RelayCommand continueSaveCommand;
+        public RelayCommand ContinueSaveCommand
+        {
+            get { return continueSaveCommand; }
+        }
+        private RelayCommand stopSaveCommand;
+        public RelayCommand StopSaveCommand
+        {
+            get { return stopSaveCommand; }
+        }
+        private ManualResetEvent resetEvent = new ManualResetEvent(true);
+        private Thread thread;
+
         public ControllerViewModel()
         {
             model = new ModelS();
@@ -179,6 +197,7 @@ namespace EasySaveV2.ViewModel
 
         public void lunchSave()
         {
+            
             var IsSaved = false;
             try
             {

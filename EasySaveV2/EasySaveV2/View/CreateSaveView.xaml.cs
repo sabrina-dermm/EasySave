@@ -22,5 +22,28 @@ namespace EasySaveV2.View
         {
             InitializeComponent();
         }
+
+        private void LunchClick(object sender, RoutedEventArgs e)
+        {
+            pauseButton.Visibility = Visibility.Visible;
+            stopButton.Visibility = Visibility.Visible;
+        }
+
+        private void PauseClick(object sender, RoutedEventArgs e)
+        {
+            pauseButton.Visibility = Visibility.Collapsed;
+            playButton.Visibility = Visibility.Visible;
+        }
+
+        private void ContinueClick(object sender, RoutedEventArgs e)
+        {
+            playButton.Visibility = Visibility.Collapsed;
+            pauseButton.Visibility = Visibility.Visible;
+        }
+
+        private void StopClick(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }
