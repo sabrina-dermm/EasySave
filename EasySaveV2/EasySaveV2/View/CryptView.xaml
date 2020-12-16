@@ -21,7 +21,6 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
-
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Content="Enter the save name you want to crypt"  Margin="25,0,25,0" FontSize="12.4"/>
             <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=CurrentFile.NameSaveCrypt, Mode=TwoWay}" Margin="25,0,25,0"/>
