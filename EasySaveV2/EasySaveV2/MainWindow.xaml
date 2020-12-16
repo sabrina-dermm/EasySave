@@ -17,12 +17,12 @@
         </Grid.RowDefinitions>
         <DockPanel Grid.Column="0" Grid.Row="0" Background="BlueViolet" Grid.RowSpan="3">
             <StackPanel>
-                <Button x:Name="changeLangueF" Content="Change language in french " Margin="15" Click="chageLanguageF" Height="71"/>
-                <Button x:Name="changeLangueA" Content="Passer en Englais" Margin="15" Visibility="Collapsed" Click="chageLanguageA" Height="71"/>
-                <Button x:Name="homeButtonLan" Content="Home"  Margin="15" Click="HitMe" Height="71" />
-                <Button x:Name="saveButtonLan" Content="Create A Save Procedure"  Margin="15" Click="SwitchToCreateSaveView" Height="71" />
-                <Button x:Name="lunchButtonLan" Content="Launch all save procedures sequentially"  Margin="15" Click="SwitchToLunchAll" Height="71"/>
-                <Button x:Name="cryptButtonLan" Content="Crypte a save"  Margin="15" Click="SwitchToCrypt" Height="71"/>
+                <Button x:Name="changeLangueF" Content="  Switch to French    " Margin="15" Click="chageLanguageF" Height="71"/>
+                <Button x:Name="changeLangueA" Content="  Passer en Englais    " Margin="15" Visibility="Collapsed" Click="chageLanguageA" Height="71"/>
+                <Button x:Name="homeButtonLan" Content="   Home   "  Margin="15" Click="HitMe" Height="71" />
+                <Button x:Name="saveButtonLan" Content="  Create A Save    "  Margin="15" Click="SwitchToCreateSaveView" Height="71" />
+                <Button x:Name="lunchButtonLan" Content="   Launch all saves procedure"  Margin="15" Click="SwitchToLunchAll" Height="71"/>
+                <Button x:Name="cryptButtonLan" Content="  Crypte a file   "  Margin="15" Click="SwitchToCrypt" Height="71"/>
 
             </StackPanel>
         </DockPanel>

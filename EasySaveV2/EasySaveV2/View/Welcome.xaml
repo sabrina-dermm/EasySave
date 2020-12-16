@@ -43,7 +43,7 @@
             <TextBox Grid.Row="0" Grid.Column="1"  Text="{Binding Path=CurrentPriority.ExtentionList}" Margin="25,0,25,0"/>
             <Label Grid.Row="1" Grid.Column="0" Content="Enter the size of the file" Margin="25,19,25,5"  FontSize="12.4" />
             <TextBox Grid.Row="1" Grid.Column="1"   Text="{Binding Path=CurrentPriority.SizeFile}" Margin="25,10,25,0" Height="40" VerticalAlignment="Top"/>
-            <Button Content="Priority" Width="150" Grid.Row="1"  Grid.Column="2" Command="{Binding Path=PriorityCommand}" Margin="25,16,25,31" Grid.RowSpan="2"/>
+            <Button Content="Save priorities" Width="150" Grid.Row="1"  Grid.Column="2" Command="{Binding Path=PriorityCommand}" Margin="25,16,25,31" Grid.RowSpan="2"/>
             <TextBlock  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Path=MessageProprty}" Margin="25,0,25,0" Foreground="#FFE81616" FontSize="12.4" />
             <Button Width="auto" Margin="25,16,25,31" Content="Open State and Log File" Grid.Column="0" Grid.Row="3" Click="openStateFileClick"/>
             

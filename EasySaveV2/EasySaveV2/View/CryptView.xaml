@@ -29,7 +29,7 @@
             <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Path=MessageCrypt, Mode=TwoWay}"  Margin="25,10,25,0" Height="40" Foreground="#FFE81616" FontSize="12.4"/>
             <Button Content="Crypte the file" Grid.Row="2" Grid.Column="2" Width="200"  Command="{Binding Path=CryptCommand}" Margin="25,10,25,0"/>
         </Grid>
-        
+
         <Grid Height="400" VerticalAlignment="Bottom">
             <DataGrid Name="dgSaveWork" AutoGenerateColumns="False"  Margin="5,8,8,8" Padding="3,3,3,3" ItemsSource="{Binding Path=SaveWorkList, Mode=TwoWay}">
                 <DataGrid.Columns>

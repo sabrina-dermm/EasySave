@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace EasySaveV2.View
 {
@@ -21,6 +22,11 @@ namespace EasySaveV2.View
         public Acceuil()
         {
             InitializeComponent();
+        }
+        private void openStateFileClick(object sender, RoutedEventArgs e)
+        {
+            Process p = new Process();
+            Process.Start("Notepad++");
         }
     }
 }

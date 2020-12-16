@@ -6,55 +6,50 @@
              xmlns:local="clr-namespace:EasySaveV2.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="White">
-        <Grid.ColumnDefinitions>
+    <Grid Background="#FFF2F2F5">
+        <Grid Height="50" VerticalAlignment="Top" Margin="0,-2,0,0" RenderTransformOrigin="0.5,0.5" >
+            <TextBlock Text="Crée une nouvelle sauvegarde" TextAlignment="Center" VerticalAlignment="Center" FontSize="22"/>
 
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
+        </Grid>
+        <Grid Margin="-10,63,10,287" Height="200">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Entrez le nom de sauvegarde"  Margin="25,0,25,0" FontSize="12.4"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=CurrentSaveWork.NameSave, Mode=TwoWay}" Margin="25,0,25,0"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Entrez le chemain source"   Margin="25,19,25,5" FontSize="12.4"/>
+            <TextBox Grid.Row="1" Grid.Column="1"  Text="{Binding Path=CurrentSaveWork.SrcPath, Mode=TwoWay}" Margin="25,10,25,0" Height="40" VerticalAlignment="Top"/>
+            <Label Grid.Row="2" Grid.Column="0" Content="Entrez le chemain destination"   Margin="25,19,25,5" FontSize="12.4"/>
+            <TextBox Grid.Row="2" Grid.Column="1"  Text="{Binding Path=CurrentSaveWork.DestPath, Mode=TwoWay}" Margin="25,10,25,0" Height="40" VerticalAlignment="Top"/>
+            <Label Grid.Row="3" Grid.Column="0" Content="Entrez le type de sauvegarde"   Margin="25,19,25,5" FontSize="12.4"/>
+            <TextBox Grid.Row="3" Grid.Column="1"  Text="{Binding Path=CurrentSaveWork.Type, Mode=TwoWay}" Margin="25,10,25,0" Height="40" VerticalAlignment="Top"/>
+            <Button  Grid.Row="0" Grid.Column="2" Content="Lancez la sauvegarde"  Width="200"  Command="{Binding Path=LuncgSaveCommand}"/>
+            <Button Grid.Row="1" Grid.Column="2" Content="Sauvegarder"  Width="200" Command="{Binding Path=SaveCommand}"/>
+            <TextBlock Grid.Row="2" Grid.Column="2"  Name="txtBlockMessage" Text="{Binding Path=MessageSave}"  Margin="25,10,25,0" Height="40" Foreground="#FFE81616" FontSize="12.4"/>
+            <TextBlock Grid.Row="3" Grid.Column="2" Name="txtBlockMessage2"  Text="{Binding Path=MessageLunchSave}"  Margin="25,10,25,0" Height="40" Foreground="#FFE81616" FontSize="12.4"/>
+        </Grid>
+        <Grid>
 
-            <ColumnDefinition />
+        </Grid>
+        <Grid Height="300" VerticalAlignment="Bottom">
+            <DataGrid Name="dgSaveWork" AutoGenerateColumns="False"  Margin="5,8,8,8" Padding="3,3,3,3" ItemsSource="{Binding Path=SaveWorkList, Mode=TwoWay}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Nom de sauvegarde" Width="auto" Binding="{Binding Path=NameSave}"/>
+                    <DataGridTextColumn Header="Chemain source" Width="auto" Binding="{Binding Path=SrcPath}"/>
+                    <DataGridTextColumn Header="Chemain destination" Width="auto" Binding="{Binding Path=DestPath}"/>
+                    <DataGridTextColumn Header="Type" Width="auto" Binding="{Binding Path=Type}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
 
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="10"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-
-        <Label Content="Entrer le name de la sauvegarde" Grid.Row="1" Grid.Column="1" Margin="0,10,10,0" />
-        <TextBox Grid.Row="1" Grid.Column="2" Width="150" Margin="10" Text="{Binding Path=CurrentSaveWork.NameSave, Mode=TwoWay}" Grid.ColumnSpan="2"/>
-        <Label Content="Entrer le lien source" Grid.Row="2" Grid.Column="1" Margin="0,10,10,0" />
-        <TextBox Grid.Row="2" Grid.Column="2" Width="150" Margin="10" Text="{Binding Path=CurrentSaveWork.SrcPath, Mode=TwoWay}" Grid.ColumnSpan="2"/>
-        <Label Content="Entrer le lien destination" Grid.Row="3" Grid.Column="1" Margin="0,10,10,0"/>
-        <TextBox Grid.Row="3" Grid.Column="2" Width="150" Margin="10" Text="{Binding Path=CurrentSaveWork.DestPath, Mode=TwoWay}" Grid.ColumnSpan="2"/>
-
-        <Label Content="Entrer le type de la sauvegarde" Grid.Row="4" Grid.Column="1" Margin="0,10,10,0"/>
-        <TextBox Grid.Row="4" Grid.Column="2" Width="150" Margin="10" Text="{Binding Path=CurrentSaveWork.Type, Mode=TwoWay}" Grid.ColumnSpan="2"/>
-
-        <Button Content="Luncer la sauvegarde" Grid.Row="5" Grid.Column="1" Width="200"  Command="{Binding Path=LuncgSaveCommand}"/>
-
-        <Button Content="Sauvegarder" Grid.Row="5" Grid.Column="2" Width="200" Command="{Binding Path=SaveCommand}"/>
-        <TextBlock Name="txtBlockMessage" Grid.Row="6" Grid.Column="2" Text="{Binding Path=MessageSave}"/>
-        <TextBlock Name="txtBlockMessage2" Grid.Row="7" Grid.Column="1" Text="{Binding Path=MessageLunchSave}"/>
-
-        <DataGrid Name="dgSaveWork" AutoGenerateColumns="False" Grid.ColumnSpan="2" Grid.Row="9" Grid.Column="1" Margin="5,8,8,8" Padding="3,3,3,3" ItemsSource="{Binding Path=SaveWorkList, Mode=TwoWay}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Nom de la sauvegarde" Width="auto" Binding="{Binding Path=NameSave}"/>
-                <DataGridTextColumn Header="Lien source" Width="auto" Binding="{Binding Path=SrcPath}"/>
-                <DataGridTextColumn Header="Lien destination" Width="auto" Binding="{Binding Path=DestPath}"/>
-                <DataGridTextColumn Header="Type" Width="auto" Binding="{Binding Path=Type}"/>
-            </DataGrid.Columns>
-        </DataGrid>
 
     </Grid>
 </UserControl>

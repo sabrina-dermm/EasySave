@@ -88,10 +88,10 @@ namespace EasySaveV2
 
         private void chageLanguageF(object sender, RoutedEventArgs e)
         {
-            Title = "Enregistrer facilement";            
+                     
             homeButtonLan.Content = "Acceuil";
-            saveButtonLan.Content = "Créer une procedure de sauvegarde";
-            lunchButtonLan.Content = "Lancer toutes les procédures de sauvegarde";
+            saveButtonLan.Content = "Créer une  sauvegarde";
+            lunchButtonLan.Content = "Lancer toutes les sauvegardes";
             cryptButtonLan.Content = "Crypter un fichier";
             changeLangueF.Visibility = Visibility.Collapsed;
             changeLangueA.Visibility = Visibility.Visible;
@@ -101,11 +101,11 @@ namespace EasySaveV2
         }
         private void chageLanguageA(object sender, RoutedEventArgs e)
         {
-            Title = "EasySave";
-            homeButtonLan.Content = "Home";
-            saveButtonLan.Content = "Create A Save Procedure";
-            lunchButtonLan.Content = "Launch all save procedures sequentially";
-            cryptButtonLan.Content = "Crypte a save";
+            
+            homeButtonLan.Content = "   Home   ";
+            saveButtonLan.Content = "  Create A Save    ";
+            lunchButtonLan.Content = "   Launch all saves procedure";
+            cryptButtonLan.Content = "  Crypte a file   ";
             changeLangueA.Visibility = Visibility.Collapsed;
             changeLangueF.Visibility = Visibility.Visible;
             setActiveUserControl(Welcome);

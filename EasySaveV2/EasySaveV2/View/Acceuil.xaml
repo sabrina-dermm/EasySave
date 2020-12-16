@@ -6,25 +6,49 @@
              xmlns:local="clr-namespace:EasySaveV2.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="White">
+    <Grid Background="#FFF2F2F5">
+        <Grid Height="60" VerticalAlignment="Top" Margin="0,-2,0,0" RenderTransformOrigin="0.5,0.5" >
+            <TextBlock Text="Bienvenu Sur Easy Save" TextAlignment="Center" VerticalAlignment="Center" FontSize="22"/>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+        </Grid>
+        <Grid Margin="-10,63,10,287" Height="100">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" MinHeight="32"/>
+                <RowDefinition Height="auto" MinHeight="15.96"/>
+            </Grid.RowDefinitions>
+            <Label Content="Entrez les logiciels que vous souhaitez tracker " Grid.Row="0" Grid.Column="0" Margin="25,0,25,0" FontSize="12.4"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=CurrentProcessTrack.ProcessName}" Margin="25,0,25,0"/>
+            <Button Grid.Row="0" Grid.Column="2" Width="150" Content="Tracker"   Command="{Binding Path=ProcessCommand}"/>
+            <TextBlock  Grid.Row="1" Grid.Column="0" Text="{Binding Path=MessageProcess}" Margin="25,0,25,0" Foreground="#FFE81616" FontSize="12.4"/>
+        </Grid>
+        <Grid Height="300" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
 
-        </Grid.RowDefinitions>
-        <TextBlock Text="Bien venu sur easySave" Grid.Column="1" Grid.Row="1"  Margin="50"/>
-        <Label Content="Entrer le logiciel que vous voulez tracker" Margin="10" Grid.Row="2" Grid.Column="1"/>
-        <TextBox Grid.Row="2" Grid.Column="2" Margin="10" Width="150" Text="{Binding Path=CurrentProcessTrack.ProcessName}"/>
-        <Button Content="Tracker" Grid.Column="2" Grid.Row="3" Margin="10" Command="{Binding Path=ProcessCommand}"/>
-        <TextBlock Grid.Row="3" Grid.Column="1" Margin="10" Width="150" Text="{Binding Path=MessageProcess}"/>
+            </Grid.RowDefinitions>
+            <Label Content="Entrez les extensions" Grid.Row="0" Grid.Column="0" Margin="25,0,25,0" FontSize="12.4"/>
+            <TextBox Grid.Row="0" Grid.Column="1"  Text="{Binding Path=CurrentPriority.ExtentionList}" Margin="25,0,25,0"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Entrez la taille du fichier" Margin="25,19,25,5"  FontSize="12.4" />
+            <TextBox Grid.Row="1" Grid.Column="1"   Text="{Binding Path=CurrentPriority.SizeFile}" Margin="25,10,25,0" Height="40" VerticalAlignment="Top"/>
+            <Button Content="Sauvegarder" Width="150" Grid.Row="1"  Grid.Column="2" Command="{Binding Path=PriorityCommand}" Margin="25,16,25,31" Grid.RowSpan="2"/>
+            <TextBlock  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Path=MessageProprty}" Margin="25,0,25,0" Foreground="#FFE81616" FontSize="12.4" />
+            <Button Width="auto" Margin="25,16,25,31" Content="Ouvrir fichier etat et log" Grid.Column="0" Grid.Row="3" Click="openStateFileClick"/>
+
+        </Grid>
+
 
     </Grid>
 </UserControl>
