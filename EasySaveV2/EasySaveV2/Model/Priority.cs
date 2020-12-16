@@ -24,7 +24,6 @@ namespace EasySaveV2.Model
             set { extentionList = value; OnPropertyChanged("ExtentionList"); }
         }
 
-        //create the souce path variable
         private String sizeFile;
         public String SizeFile
         {

@@ -214,124 +214,48 @@ namespace EasySaveV2.ViewModel
         Semaphore semaphoreObject = new Semaphore(initialCount: 1, maximumCount: 4, name: "SaveApp");
        
        
-            public void SaveSync(object index)
-            {
-          
+        public void SaveSync(object index)
+        {
+            int j = 1 + (int)index; 
             try
             {
                 //Blocks the current thread until the current WaitHandle receives a signal.   
                 semaphoreObject.WaitOne();
-                model.lunchSave((int)index+1);
-               // lunchSyncSave((int)index);
-                MessageLunchAllSave = String.Concat("\n Save "+index, MessageLunchAllSave);
+                model.lunchSave(j);
+                MessageLunchAllSave = String.Concat("\n Save "+j+ " succeded", MessageLunchAllSave);
                 Thread.Sleep(TimeSpan.FromSeconds(2));
             }
             finally
             {
                 semaphoreObject.Release();
-
             }
         }
-        public void lunchSyncSave(int index)
-        {
-            SaveWork work;
-
-            work = saveWorkList[index];
-            if (Directory.Exists(work.SrcPath))
-            {
-                if (work.Type == "complete")
-                {
-                    //CompleteSave(index);
-                    //CreateLogLine("Launching save work from position " + index + ", type : complete save");
-                }
-                else if (work.Type == "differencial")
-                {
-                    //DifferencialSave(index);
-                }
-            }
-        }
+    
         public void lunchAllSaveSyc()
-        {
-            int i = 0;
-            try
-            {    /* 
-                foreach(SaveWork s in saveWorkList)
-                {
-                    Thread thread = new Thread(UpdateText);
-                    thread.Start(i);
-                    i++;
-                }
-                */
-                while (i <saveWorkList.Count)
-                {
-                    Thread thread = new Thread(SaveSync);
-                    thread.Start(i);
-                    i++;
-                }
-                              
+            {
+            List<SaveWork> s = model.getAll();
+            List<SaveWork> prioty =model.modifyTheOrderOfTheList(s,CurrentPriority);
+            //get the index list of priorty from s
+            int[] indexes = new int[s.Count];
 
+            for(int i=0; i<indexes.Length; i++)
+            {
+                indexes[i] = s.IndexOf(prioty[i]);
+            }
+            try
+            {  
+                for(int i=0; i< indexes.Length; i++){
+                    Thread thread = new Thread(SaveSync);
+                    thread.Start(indexes[i]);
+                }                                             
             }
             catch (Exception ex)
             {
                 MessageLunchAllSave = ex.Message;
-            }
-
-            
+            }           
         }
         
-        public void lunchAllSave()
-        {
-            
-            List<SaveWork> s = model.getAll();
-            var IsSaved = false;
-            List<SaveWork> saveWorkPriorrtyList = model.returnPriorityList(s, CurrentPriority);
-            int[] indexP = new int[saveWorkPriorrtyList.Count];
-            int[] indexNP = new int[saveWorkList.Count - saveWorkPriorrtyList.Count];
-
-            int i_index=0 , i_indexNP = 0;
-            int j = 0;
-
-            //un boucle pour avoir chaque index des sauvegardes prioritaires et non prioritaires et les stockées dans une tables
-            while (saveWorkPriorrtyList.Count < j)
-            {
-                for (int i = 0; i < s.Count; i++)
-                {
-                    if (s[i] == saveWorkPriorrtyList[j])
-                    {
-                        indexP[i_index] = i;
-                        i_index++;
-                    }
-                    else
-                    {
-                        indexNP[i_indexNP] = i;
-                        i_indexNP++;
-                    }
-            }
-                j++;
-            }
-          
-            try
-            {
-               //IsSaved = model.useSemaphoreToLunchAllSaves(indexP);
-               IsSaved = model.useSemaphoreToLunchAllSaves(indexNP);
-
-                if (IsSaved)
-                {
-                    MessageLunchAllSave = "Lunch All Saves succed";
-                }
-                else
-                {
-                    MessageLunchAllSave = "Lunch All Saves failed !";
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageLunchSave = ex.Message;
-            }
-
-
-        }
-
+        
         public void isOnProcess()
         {
             try

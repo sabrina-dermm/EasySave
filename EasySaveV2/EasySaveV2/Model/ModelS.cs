@@ -130,28 +130,7 @@ namespace EasySaveV2.Model
             return true;
         }
 
-        public bool lunchSaveSync(int index)
-        {
-
-            SaveWork work;
-            work = saveWorkList[index - 1];
-
-
-            if (Directory.Exists(work.SrcPath))
-            {
-                if (work.Type == "complete")
-                {
-                    CompleteSave(index);
-                }
-                else if (work.Type == "differencial")
-                {
-                    DifferencialSave(index);
-                }
-            }
-
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-            return true;
-        }
+      
 
         #region complete Save
         private void CompleteSave(int _nb)
@@ -354,21 +333,7 @@ namespace EasySaveV2.Model
         #endregion
 
 
-       public bool useSemaphoreToLunchAllSaves(int[] tableaudesindex)
-        {
-            bool succed = false;
-            Semaphore semaphoreObject = new Semaphore(initialCount: tableaudesindex.Length, maximumCount: tableaudesindex.Length, name: "SaveApp");
-            for (int i = 0; i < tableaudesindex.Length; i++)
-            {
-                Task.Factory.StartNew(() =>
-                {
-                    semaphoreObject.WaitOne();
-                    succed = lunchSaveSync(tableaudesindex[i] + 1);
-                    semaphoreObject.Release();
-                });
-            }
-            return succed;
-        }
+      
 
         //methode of CreateLogLine
         private void CreateLogLine(String content)
@@ -564,40 +529,38 @@ namespace EasySaveV2.Model
             return isCheck;
         }
 
-        public List<SaveWork> returnPriority(List<SaveWork> list)
-        {
-            return list;
-        }
 
-        public List<SaveWork> returnPriorityList(List<SaveWork>list, Priority p)
+
+
+
+        public List<SaveWork> modifyTheOrderOfTheList(List<SaveWork> list, Priority p)
         {
-            List<SaveWork> priorityList = new List<SaveWork>() ;
-            String[] extentions = p.ExtentionList.Split(" ");            
-            int j = 0;
+            List<SaveWork> priorityList = new List<SaveWork>();
+            String[] extentions = p.ExtentionList.Split(" ");
             DirectoryInfo directorySource;
+            int j = 0;
             long directorySize = 0;
-            for (int i=0; i<list.Count; i++)
+
+            for (int i = 0; i < list.Count; i++)
             {
-                while(Directory.GetFiles(list[i].SrcPath, extentions[j]).Length==0 && j < extentions.Length)
+                while (Directory.GetFiles(list[i].SrcPath, extentions[j]).Length != 0 && j < extentions.Length)
                 {
                     j++;
                 }
-
-                if (Directory.GetFiles(list[i].SrcPath, extentions[j]).Length != 0)
+                if (j >= extentions.Length)
                 {
-                    //Search directory info from source and target path
                     directorySource = new DirectoryInfo(list[i].SrcPath);
                     //Calculate the total size of th file
                     directorySize = SourceDirectoryInfo.GetSizeInSourceDirectory(directorySource);
-                    
+
                     //converte kiloByte in byte
-                    if (directorySize < int.Parse(p.SizeFile)*1000)
+                    if (directorySize < int.Parse(p.SizeFile) * 1000)
                     {
                         priorityList.Add(list[i]);
                     }
-                }                               
+                }
             }
-            if(priorityList.Count == 0)
+            if (priorityList.Count == 0)
             {
                 for (int i = 0; i < list.Count; i++)
                 {
@@ -606,14 +569,33 @@ namespace EasySaveV2.Model
                     directorySize = SourceDirectoryInfo.GetSizeInSourceDirectory(directorySource);
 
                     //converte kiloByte in byte
-                    if (directorySize < int.Parse(p.SizeFile)*1000)
+                    if (directorySize < int.Parse(p.SizeFile) * 1000)
                     {
                         priorityList.Add(list[i]);
                     }
                 }
             }
-            return priorityList;
+            if (priorityList.Count == 0)
+            {
+                return list;
+            }
+            else
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (!priorityList.Contains(list[i]))
+                    {
+                        priorityList.Add(list[i]);
+                    }
+                }
+                return priorityList;
+            }
+
+
+
+
         }
+
 
 
     }
