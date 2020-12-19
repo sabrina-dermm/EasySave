@@ -1,4 +1,6 @@
 ﻿using EasySaveV2.ViewModel;
+using SingleInstanceCore;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -10,11 +12,15 @@ namespace EasySaveV2
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const string Unique = "EasySave";
+
+
         public int langue =0;
         ControllerViewModel c;
         public MainWindow()
         {
             InitializeComponent();
+           
             c = new ControllerViewModel();
             this.DataContext = c;
         }
